@@ -17,10 +17,15 @@ Expects Ruby 2.5.0.
 4. Create `.env` in project root. This should contain `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `S3_BUCKET`.
 
 
-## To Run
+## Running
 
-This script creates and uploads a new episode:
+To create and upload a new episode:
 
-> `ruby lib/twib.rb`
+> `$ ruby bin/run.rb`
 
+## Development
+
+To launch an IRB session with the app environment loaded:
+
+> `$ bin/irb.sh`
 
