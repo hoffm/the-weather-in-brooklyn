@@ -13,7 +13,7 @@ SAMPLE_RATE=`soxi -r $RAW_MUSIC`
 sox -M $RAW_SPEECH $RAW_SPEECH -r $SAMPLE_RATE $SPEECH_PATH
 
 # Mix the voice and music together, boosting speech audio
-sox -m -v 1.3 $SPEECH_PATH -v 0.7 $RAW_MUSIC $RAW_MIX_PATH norm
+sox -m -v 1.2 $SPEECH_PATH -v 0.7 $RAW_MUSIC $RAW_MIX_PATH norm
 
 # Get duration of the voice track in seconds
 SPEECH_LENGTH=`soxi -D $SPEECH_PATH`

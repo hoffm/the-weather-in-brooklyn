@@ -1,0 +1,1 @@
+irb -r ./config/environment.rb
