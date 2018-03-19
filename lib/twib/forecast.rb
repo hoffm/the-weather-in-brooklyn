@@ -5,9 +5,10 @@ module Twib
     EXPANSIONS = {
       "mph" => "miles per hour",
       "%" => " percent",
-    }
+    }.freeze
+
     INTRO_TEXT = "This is The Weather in Brooklyn. Welcome. " \
-      "Here is your forecast for #{Time.now.strftime("%A, %B %e, %Y")}.".freeze
+      "Here is your forecast for #{Time.now.strftime('%A, %B %e, %Y')}.".freeze
 
     def current_as_ssml
       SsmlBuilder.new do |ssml|
@@ -28,7 +29,7 @@ module Twib
       raw_current_forecast["periods"].map do |period|
         name = period["name"]
         details = period["detailedForecast"]
-        EXPANSIONS.each{ |expansion| details.gsub!(*expansion) }
+        EXPANSIONS.each { |expansion| details.gsub!(*expansion) }
 
         [name, details]
       end
@@ -38,7 +39,7 @@ module Twib
       connection = Faraday.new(
         url: NWS_API_HOST,
         headers: { accept: "application/ld+json" },
-        )
+      )
 
       response = connection.get(NWS_API_PATH)
       JSON.parse(response.body)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Twib
   NWS_API_HOST = "https://api.weather.gov"
   NWS_API_PATH = "/gridpoints/OKX/33,32/forecast"

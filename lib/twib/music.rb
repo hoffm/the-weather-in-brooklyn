@@ -8,9 +8,10 @@ module Twib
 
     def all_songs
       S3_CLIENT.list_objects_v2(
-        bucket: ENV["S3_BUCKET"], prefix: "music/"
+        bucket: ENV["S3_BUCKET"],
+        prefix: "music/",
       ).contents.select do |s3_obj|
-        s3_obj.size > 0
+        s3_obj.size.positive?
       end
     end
 

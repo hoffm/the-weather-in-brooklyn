@@ -19,7 +19,8 @@ module Twib
 
       def last_key
         S3_CLIENT.list_objects_v2(
-          bucket: ENV["S3_BUCKET"], prefix: "episodes/"
+          bucket: ENV["S3_BUCKET"],
+          prefix: "episodes/",
         ).contents.last.key
       end
     end
@@ -30,22 +31,22 @@ module Twib
     end
 
     def upload!(source_path:)
-      File.open(source_path, 'rb') do |file|
+      File.open(source_path, "rb") do |file|
         S3_CLIENT.put_object(
           acl: "public-read",
           bucket: ENV["S3_BUCKET"],
           key: s3_key,
-          body: file
+          body: file,
         )
       end
     end
 
     def audio_url
-      "https://s3.amazonaws.com/#{ENV["S3_BUCKET"]}/#{s3_key}"
+      "https://s3.amazonaws.com/#{ENV['S3_BUCKET']}/#{s3_key}"
     end
 
     def s3_key
-      "episodes/#{number}_#{time.strftime("%Y-%m-%d")}.mp3"
+      "episodes/#{number}_#{time.strftime('%Y-%m-%d')}.mp3"
     end
 
     def title

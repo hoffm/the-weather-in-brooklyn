@@ -13,7 +13,7 @@ module Twib
     Mixer.new(
       speech_path: SPEECH_PATH,
       music_path: MUSIC_PATH,
-      target_path: MIX_PATH
+      target_path: MIX_PATH,
     ).mix
 
     puts "Uploading episode"

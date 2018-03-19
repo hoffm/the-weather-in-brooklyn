@@ -8,7 +8,7 @@ module Twib
         output_format: "mp3",
         voice_id: random_voice,
         text: ssml,
-        text_type: "ssml"
+        text_type: "ssml",
       )
     end
 
