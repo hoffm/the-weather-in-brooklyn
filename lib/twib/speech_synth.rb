@@ -10,7 +10,7 @@ module Twib
         tmp_files << tmp_file
       end
 
-      `sox #{tmp_files.join(" ")} #{SPEECH_PATH}`
+      Sox.concatenate(tmp_files, SPEECH_PATH)
       FileUtils.rm(tmp_files)
     end
 

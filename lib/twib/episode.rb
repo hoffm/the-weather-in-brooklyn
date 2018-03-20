@@ -49,7 +49,7 @@ module Twib
         subtitle: short_summary,
         description: summary,
         language: "en-us",
-        image_url: "",
+        image_url: ""
       }
     end
 
@@ -73,7 +73,7 @@ module Twib
     end
 
     def audio_duration
-      `soxi -D tmp/#{audio_path}`.strip
+      Sox.duration_in_seconds(audio_path)
     end
 
     def s3_key
