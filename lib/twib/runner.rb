@@ -1,10 +1,10 @@
 module Twib
   def self.run
     puts "Generating forecast"
-    forecast_ssml = Forecast.current_as_ssml
+    forecast_ssmls = Forecast.complete_ssmls
 
     puts "Synthesizing speech"
-    SpeechSynth.synthesize(forecast_ssml)
+    SpeechSynth.bulk_synthesize(forecast_ssmls)
 
     puts "Downloading music"
     Music.download_random_song(target_path: MUSIC_PATH)
@@ -17,8 +17,8 @@ module Twib
     ).mix
 
     puts "Uploading episode"
-    episode = Episode.build
-    episode.upload!(source_path: MIX_PATH)
+    episode = Episode.build(MIX_PATH)
+    episode.upload!
 
     puts "\"#{episode.title}\" available at #{episode.audio_url}"
   end

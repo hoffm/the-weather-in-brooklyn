@@ -1,10 +1,14 @@
 module Twib
   class Episode
-    attr_reader :number, :time
+    attr_reader :audio_path, :number, :time
 
     class << self
-      def build
-        new(time: Time.now, number: next_number)
+      def build(audio_path)
+        new(
+          audio_path: audio_path,
+          time: Time.current,
+          number: next_number,
+        )
       end
 
       private
@@ -19,30 +23,57 @@ module Twib
 
       def last_key
         S3_CLIENT.list_objects_v2(
-          bucket: ENV["S3_BUCKET"],
+          bucket: ENV["S3_MEDIA_BUCKET"],
           prefix: "episodes/",
         ).contents.last.key
       end
     end
 
-    def initialize(time:, number:)
+    def initialize(audio_path:, time:, number:)
+      @audio_path = audio_path
       @number = number
       @time = time
     end
 
-    def upload!(source_path:)
-      File.open(source_path, "rb") do |file|
+    def to_json
+      {
+        title: title,
+        enclosure: {
+          url: audio_url,
+          length: audio_size,
+          type: "audio/mpeg",
+        },
+        guid: audio_url,
+        pub_date: pub_date,
+        duration: audio_duration,
+        subtitle: short_summary,
+        description: summary,
+        language: "en-us",
+        image_url: "",
+      }
+    end
+
+    def upload!
+      File.open(audio_path, "rb") do |file|
         S3_CLIENT.put_object(
           acl: "public-read",
-          bucket: ENV["S3_BUCKET"],
+          bucket: ENV["S3_MEDIA_BUCKET"],
           key: s3_key,
           body: file,
         )
       end
     end
 
+    def audio_size
+      File.new(audio_path).size
+    end
+
     def audio_url
-      "https://s3.amazonaws.com/#{ENV['S3_BUCKET']}/#{s3_key}"
+      "https://s3.amazonaws.com/#{ENV['S3_MEDIA_BUCKET']}/#{s3_key}"
+    end
+
+    def audio_duration
+      `soxi -D tmp/#{audio_path}`.strip
     end
 
     def s3_key
@@ -73,7 +104,7 @@ HTML
     end
 
     def pub_date
-      time.rfc2822
+      (time.beginning_of_day + 6.hours).rfc2822
     end
 
     private

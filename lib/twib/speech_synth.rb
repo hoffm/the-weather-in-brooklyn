@@ -2,14 +2,30 @@ module Twib
   module SpeechSynth
     module_function
 
-    def synthesize(ssml)
+    def bulk_synthesize(ssmls)
+      tmp_files = []
+      ssmls.each_with_index do |ssml, i|
+        tmp_file = SPEECH_PATH.sub(".mp3", "_#{i}.mp3")
+        synthesize(ssml, tmp_file)
+        tmp_files << tmp_file
+      end
+
+      `sox #{tmp_files.join(" ")} #{SPEECH_PATH}`
+      FileUtils.rm(tmp_files)
+    end
+
+    def synthesize(ssml, response_target)
       POLLY_CLIENT.synthesize_speech(
-        response_target: SPEECH_PATH,
+        response_target: response_target,
         output_format: "mp3",
-        voice_id: random_voice,
+        voice_id: stable_random_voice,
         text: ssml,
         text_type: "ssml",
       )
+    end
+
+    def stable_random_voice
+      @_voice ||= random_voice
     end
 
     def random_voice

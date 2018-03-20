@@ -10,19 +10,29 @@ module Twib
     INTRO_TEXT = "This is The Weather in Brooklyn. Welcome. " \
       "Here is your forecast for #{Time.now.strftime('%A, %B %e, %Y')}.".freeze
 
-    def current_as_ssml
-      SsmlBuilder.new do |ssml|
-        ssml.speak_root do
-          ssml.pause 5
-          ssml.text INTRO_TEXT
-          ssml.pause 3
+    def complete_ssmls
+      [intro_ssml, *forecast_ssmls.take(5)]
+    end
 
-          current_forecast.take(5).each do |name, details|
-            ssml.text "#{name}. #{details}"
-            ssml.pause 5
-          end
-        end
-      end.to_xml
+    def forecast_ssmls
+      current_forecast.map do |period|
+        period_ssml(*period)
+      end
+    end
+
+    def intro_ssml
+      to_ssml do |ssml|
+        ssml.pause 5
+        ssml.text INTRO_TEXT
+        ssml.pause 3
+      end
+    end
+
+    def period_ssml(name, details)
+      to_ssml do |ssml|
+        ssml.text "#{name}. #{details}"
+        ssml.pause 5
+      end
     end
 
     def current_forecast
@@ -33,6 +43,12 @@ module Twib
 
         [name, details]
       end
+    end
+
+    def to_ssml
+      SsmlBuilder.build_ssml do |ssml|
+        yield(ssml)
+      end.to_xml
     end
 
     def raw_current_forecast

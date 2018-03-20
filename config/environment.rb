@@ -1,3 +1,4 @@
+require "active_support/time"
 require "aws-sdk-polly"
 require "aws-sdk-s3"
 require "dotenv"
@@ -9,3 +10,4 @@ Dotenv.load
 
 TWIB_APP_PATH = Dir.pwd + "/lib/twib"
 Dir["#{TWIB_APP_PATH}/**/*.rb"].each { |file| require file }
+Time.zone = "America/New_York"
