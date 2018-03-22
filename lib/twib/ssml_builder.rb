@@ -18,7 +18,4 @@ module Twib
         ) { yield }
     end
   end
-
-  class Document < Nokogiri::XML::Document
-  end
 end

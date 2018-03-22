@@ -2,3 +2,5 @@
 .env
 .DS_Store
 tmp/*
+data/json/*
+data/rss/*

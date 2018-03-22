@@ -35,8 +35,13 @@ module Twib
       @time = time
     end
 
-    def to_json
+    def store_json!
+      DataUtils.append_episode_data!(json_for_rss)
+    end
+
+    def json_for_rss
       {
+        number: number,
         title: title,
         enclosure: {
           url: audio_url,

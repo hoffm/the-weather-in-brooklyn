@@ -19,6 +19,7 @@ module Twib
     puts "Uploading episode"
     episode = Episode.build(MIX_PATH)
     episode.upload!
+    episode.store_json!
 
     puts "\"#{episode.title}\" available at #{episode.audio_url}"
   end
