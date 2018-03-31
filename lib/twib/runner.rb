@@ -16,11 +16,15 @@ module Twib
       target_path: MIX_PATH,
     ).mix
 
-    puts "Uploading episode"
+    puts "Uploading episode audio"
     episode = Episode.build(MIX_PATH)
-    episode.upload!
-    episode.store_json!
+    episode.upload_audio!
 
-    puts "\"#{episode.title}\" available at #{episode.audio_url}"
+    puts "Uploading podcast RSS feed"
+    episode.store_json!
+    Podcast.generate_and_upload_feed!
+
+    puts "New episode audio available at #{episode.audio_url}."
+    puts "Updated podcast RSS feed available at #{Podcast.url}."
   end
 end
