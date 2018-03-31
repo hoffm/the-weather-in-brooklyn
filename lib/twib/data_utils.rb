@@ -2,12 +2,23 @@ module Twib
   module DataUtils
     module_function
 
+    def store_feed!(feed_xml)
+      File.open(rss_episodes_file_path, "w") do |f|
+        f.write(feed_xml)
+      end
+      rss_episodes_file_path
+    end
+
     def append_episode_data!(episode_data)
       data = latest_episodes_data << episode_data
 
       File.open(json_episodes_file_path, "w") do |f|
         f.write(data.to_json)
       end
+    end
+
+    def rss_episodes_file_path
+      File.join(RSS_DIR, "#{Time.now.to_i}.xml")
     end
 
     def json_episodes_file_path

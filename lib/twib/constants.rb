@@ -23,25 +23,25 @@ module Twib
   RSS_DIR = expand_path("data/rss")
 
   # Static data
+
   PODCAST = {
     title: "The Weather in Brooklyn",
     link: "https://twib.nyc",
     language: "en-us",
     description: "Your daily weather forecast for Brooklyn, NY",
-    itunes_author: "Michael Hoffman",
     editor: "michael.s.hoffman@gmail.com (Michael Hoffman)",
     categories: [
-      ["Science &amp; Medicine", "Natural Sciences"],
-      ["Society &amp; Culture", "Places &amp; Travel"]
+      ["Society & Culture",  ["Places & Travel"]],
+      ["Science & Medicine", ["Natural Sciences"]],
     ],
     owner: {
-      name: "Michael Hoffman",
+      name: "Michael S. Hoffman",
       email: "michael.s.hoffman@gmail.com"
     },
     itunes_type: "episodic",
     image: {
-      url: "",
-      link: "",
+      url: "https://d3vv6lp55qjaqc.cloudfront.net/items/1G2P3n2T3d2Y3Y0x2q2O/twib.png",
+      link: "https://twib.nyc",
       title: "The Weather in Brooklyn"
     }
   }
