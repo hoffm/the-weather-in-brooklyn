@@ -1,9 +1,11 @@
 #! /bin/bash
 
-RAW_SPEECH=$1
+LOGO=$1
 RAW_MUSIC=$2
-MIX_PATH=$3
+RAW_SPEECH=$3
+MIX_PATH=$4
 RAW_MIX_PATH=tmp/raw_mix.mp3
+TMP_MIX_PATH=tmp/tmp_mix.mp3
 SPEECH_PATH=tmp/resampled_speech.mp3
 
 # Get sample rate from the music
@@ -22,7 +24,10 @@ SPEECH_LENGTH=`soxi -D $SPEECH_PATH`
 STOP_POSITION=`echo "$SPEECH_LENGTH + 15" | bc -l`
 
 # Fade out the mix 15s after the voice stops.
-sox $RAW_MIX_PATH $MIX_PATH fade t 0 $STOP_POSITION 10
+sox $RAW_MIX_PATH $TMP_MIX_PATH fade t 0 $STOP_POSITION 10
+
+# Prepend the audio logo,
+sox $LOGO $TMP_MIX_PATH $MIX_PATH
 
 # Clean up temporary files.
-rm $RAW_MIX_PATH $RAW_SPEECH $SPEECH_PATH $RAW_MUSIC
+rm $LOGO $TMP_MIX_PATH $RAW_MIX_PATH $RAW_SPEECH $SPEECH_PATH $RAW_MUSIC

@@ -9,8 +9,12 @@ module Twib
     puts "Downloading music"
     Music.download_random_song(target_path: MUSIC_PATH)
 
+    puts "Downloading logo"
+    Logo.download(target_path: LOGO_PATH)
+
     puts "Mixing audio"
     Mixer.new(
+      logo_path: LOGO_PATH,
       speech_path: SPEECH_PATH,
       music_path: MUSIC_PATH,
       target_path: MIX_PATH,

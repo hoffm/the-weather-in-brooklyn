@@ -8,6 +8,7 @@ module Twib
   # AWS
   S3_CLIENT = Aws::S3::Client.new(region: "us-east-1")
   POLLY_CLIENT = Aws::Polly::Client.new(region: "us-east-1")
+  LOGO_S3_KEY = "logo/logo.mp3"
 
   def self.expand_path(path)
     File.expand_path("./", path)
@@ -16,6 +17,7 @@ module Twib
   # Temp files
   MUSIC_PATH = expand_path("tmp/raw_music.mp3")
   SPEECH_PATH = expand_path("tmp/raw_speech.mp3")
+  LOGO_PATH = expand_path("tmp/logo.mp3")
   MIX_PATH = expand_path("tmp/final_mix.mp3")
 
   # Data files
