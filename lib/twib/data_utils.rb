@@ -13,7 +13,7 @@ module Twib
       data = latest_episodes_data << episode_data
 
       File.open(json_episodes_file_path, "w") do |f|
-        f.write(data.to_json)
+        f.write(JSON.pretty_generate(data))
       end
     end
 
