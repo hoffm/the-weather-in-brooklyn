@@ -26,9 +26,13 @@ module Twib
 
   # Static data
 
+  PODCAST_TITLE = "The Weather in Brooklyn"
+  PODCAST_HOMEPAGE = "https://twib.nyc"
+
+
   PODCAST = {
-    title: "The Weather in Brooklyn",
-    link: "https://twib.nyc",
+    title: PODCAST_TITLE,
+    link: PODCAST_HOMEPAGE,
     language: "en-us",
     description: "Your daily weather forecast for Brooklyn, NY",
     editor: "michael.s.hoffman@gmail.com (Michael Hoffman)",
@@ -42,9 +46,9 @@ module Twib
     },
     itunes_type: "episodic",
     image: {
-      url: "https://d3vv6lp55qjaqc.cloudfront.net/items/1G2P3n2T3d2Y3Y0x2q2O/twib.png",
-      link: "https://twib.nyc",
-      title: "The Weather in Brooklyn"
+      url: "https://twib-production.s3.amazonaws.com/images/twib.jpg",
+      link: PODCAST_HOMEPAGE,
+      title: PODCAST_TITLE
     }
   }
 end
