@@ -1,3 +1,4 @@
+
 ## Description
 
 Generates and distributes the podcast *The Weather in Brooklyn*.
@@ -5,8 +6,6 @@ Generates and distributes the podcast *The Weather in Brooklyn*.
 ## Set up
 
 ### OS X
-
-Expects Ruby 2.5.0.
 
 1. Lame: `$ brew install lame`
 
