@@ -29,7 +29,6 @@ module Twib
   PODCAST_TITLE = "The Weather in Brooklyn"
   PODCAST_HOMEPAGE = "https://twib.nyc"
 
-
   PODCAST = {
     title: PODCAST_TITLE,
     link: PODCAST_HOMEPAGE,

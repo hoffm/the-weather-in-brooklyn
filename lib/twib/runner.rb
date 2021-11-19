@@ -1,7 +1,7 @@
 module Twib
   def self.run
     puts "Generating forecast"
-    forecast_ssmls = Forecast.complete_ssmls
+    forecast_ssmls = Script.complete_ssmls
 
     puts "Synthesizing speech"
     SpeechSynth.bulk_synthesize(forecast_ssmls)

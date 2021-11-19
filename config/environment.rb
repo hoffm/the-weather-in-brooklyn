@@ -9,5 +9,6 @@ require "nokogiri"
 Dotenv.load
 
 TWIB_APP_PATH = Dir.pwd + "/lib/twib"
+require TWIB_APP_PATH + "/constants.rb"
 Dir["#{TWIB_APP_PATH}/**/*.rb"].each { |file| require file }
 Time.zone = "America/New_York"
