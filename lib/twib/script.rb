@@ -12,19 +12,19 @@ module Twib
       Here is your forecast for #{Time.now.strftime('%A, %B %e, %Y')}.
     TEXT
 
-    OUTRO_TEXT = <<~TEXT
-      The Weather in Brooklyn was created by Michael Hoffman.
+    CREDITS_TEXT = <<~TEXT
+      The Weather in Brooklyn is an automated podcast by Michael Hoffman.
       Music by Jascha Hoffman.
       Audio logo by Nate Heller.
       Podcast photograph by Alex Simpson.
-      Have a lovely day.
     TEXT
 
     def complete_ssmls
       [
         intro_ssml,
         *forecast_ssmls.take(3),
-        outro_ssml
+        credits_ssml,
+        sign_off_ssml
       ]
     end
 
@@ -42,10 +42,17 @@ module Twib
       end
     end
 
-    def outro_ssml
+    def credits_ssml
       to_ssml do |ssml|
         ssml.pause 10
-        ssml.text OUTRO_TEXT
+        ssml.text CREDITS_TEXT
+        ssml.pause 5
+      end
+    end
+
+    def sign_off_ssml
+      to_ssml do |ssml|
+        ssml.text 'Have a lovely day, Brooklyn.'
         ssml.pause 3
       end
     end
