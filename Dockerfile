@@ -20,5 +20,6 @@ USER twib
 WORKDIR /home/twib
 COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
 COPY --chown=twib . ./
+COPY --chown=twib /etc/secrets/.env ./.env
 
 CMD ["bundle", "exec", "ruby", "bin/run.rb"]
