@@ -15,9 +15,6 @@ RUN gem install bundler:2.2.31
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-RUN adduser twib
-USER twib
-
-COPY --chown=twib . ./
+COPY . ./
 
 CMD ["bundle", "exec", "ruby", "bin/run.rb"]
