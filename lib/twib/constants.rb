@@ -25,7 +25,6 @@ module Twib
   RSS_DIR = expand_path("data/rss")
 
   # Static data
-
   PODCAST_TITLE = "The Weather in Brooklyn"
   PODCAST_HOMEPAGE = "https://twib.nyc"
 
