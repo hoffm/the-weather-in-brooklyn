@@ -6,7 +6,7 @@ require "faraday"
 require "json"
 require "nokogiri"
 
-Dotenv.load
+Dotenv.load('.env', '/etc/secrets/.render_env')
 
 TWIB_APP_PATH = Dir.pwd + "/lib/twib"
 require TWIB_APP_PATH + "/constants.rb"
