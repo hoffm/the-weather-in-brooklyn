@@ -7,6 +7,7 @@ module Twib
 
       File.open(feed_file_path, "rb") do |file|
         S3_CLIENT.put_object(
+          content_type: "application/xml",
           acl: "public-read",
           bucket: ENV["S3_RSS_BUCKET"],
           key: ENV["S3_RSS_KEY"],

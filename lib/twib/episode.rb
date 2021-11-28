@@ -43,6 +43,7 @@ module Twib
     def upload_audio!
       File.open(audio_path, "rb") do |file|
         S3_CLIENT.put_object(
+          content_type: "audio/mpeg",
           acl: "public-read",
           bucket: ENV["S3_MEDIA_BUCKET"],
           key: s3_key,
@@ -80,11 +81,9 @@ module Twib
       <<~HTML
         #{short_summary}
 
-        <i>The Weather in Brooklyn</i> was created by Michael Hoffman.
-        Follow Michael on Twitter at <a href="https://twitter.com/Hoffm/">@hoffm</a>.
-
-        Episode music by Jascha Hoffman.
-        For more, visit Jascha at <a href="http://jaschamusic.com/">jaschamusic.com</a>.
+        <i>The Weather in Brooklyn</i> was created by <a href="https://twitter.com/Hoffm/">Michael Hoffman</a> and is generated automatically. You can view and contribute to its <a href="https://github.com/hoffm/the-weather-in-brooklyn">source code</a>.
+        
+        Music by <a href="http://jaschamusic.com/">Jascha Hoffman</a>. Audio logo by <a href="https://twitter.com/unclenatie">Nate Heller</a>. Photograph by <a href="https://www.alexmakotosimpson.com/">Alex Simpson</a>.
 HTML
     end
 
