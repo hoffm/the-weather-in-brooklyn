@@ -43,7 +43,7 @@ module Twib
     },
     itunes_type: "episodic",
     image: {
-      url: "https://twib-production.s3.amazonaws.com/images/twib.jpg",
+      url: "https://s3.amazonaws.com/twib.nyc/twib.jpg",
       link: PODCAST_HOMEPAGE,
       title: PODCAST_TITLE
     }
