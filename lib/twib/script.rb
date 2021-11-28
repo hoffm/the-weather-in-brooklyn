@@ -52,7 +52,7 @@ module Twib
 
     def sign_off_ssml
       to_ssml do |ssml|
-        ssml.text 'Have a lovely day, Brooklyn.'
+        ssml.text "Have a lovely day Brooklyn."
         ssml.pause 3
       end
     end
