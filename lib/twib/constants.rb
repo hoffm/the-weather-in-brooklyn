@@ -35,7 +35,7 @@ module Twib
     editor: "michael.s.hoffman@gmail.com (Michael Hoffman)",
     categories: [
       ["Society & Culture",  ["Places & Travel"]],
-      ["Science & Medicine", ["Natural Sciences"]],
+      ["Science", ["Nature"]]
     ],
     owner: {
       name: "Michael S. Hoffman",
