@@ -6,8 +6,7 @@ module Twib
   NWS_API_PATH = "/gridpoints/OKX/33,32/forecast"
 
   # AWS
-  S3_CLIENT = Aws::S3::Client.new(region: "us-east-1")
-  POLLY_CLIENT = Aws::Polly::Client.new(region: "us-east-1")
+  S3_CLIENT = Aws::S3::Client.new
   LOGO_S3_KEY = "logo/logo.mp3"
 
   def self.expand_path(path)

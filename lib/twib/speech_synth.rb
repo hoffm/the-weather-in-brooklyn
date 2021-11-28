@@ -2,6 +2,10 @@ module Twib
   module SpeechSynth
     module_function
 
+    def polly_client
+      @_polly_client ||= Aws::Polly::Client.new
+    end
+
     def bulk_synthesize(ssmls)
       tmp_files = []
       ssmls.each_with_index do |ssml, i|
@@ -15,10 +19,11 @@ module Twib
     end
 
     def synthesize(ssml, response_target)
-      POLLY_CLIENT.synthesize_speech(
+      polly_client.synthesize_speech(
         response_target: response_target,
         output_format: "mp3",
         voice_id: stable_random_voice,
+        engine: 'neural',
         text: ssml,
         text_type: "ssml",
       )
@@ -29,7 +34,10 @@ module Twib
     end
 
     def random_voice
-      all_voices = POLLY_CLIENT.describe_voices.to_h[:voices]
+      all_voices = polly_client.describe_voices(
+        engine: 'neural'
+      ).to_h[:voices]
+
       all_voices.select do |voice|
         voice[:language_code].start_with?("en-")
       end.sample[:id]
