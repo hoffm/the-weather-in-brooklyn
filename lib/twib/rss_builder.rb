@@ -52,9 +52,7 @@ module Twib
         rss.description do
           rss.cdata(data.description)
         end
-        rss["itunes"].summary do
-          rss.cdata(data.description)
-        end
+        rss["itunes"].summary data.description
         rss.managingEditor data.editor
         rss.copyright data.owner[:name]
         rss.link data.link
@@ -63,7 +61,6 @@ module Twib
           owner.name data.owner[:name]
         end
         rss["itunes"].author data.owner[:name]
-        rss["itunes"].summary data.description
         rss.language data.language
         data.categories.each do |cat, subcats|
           rss["itunes"].category( text: cat) do

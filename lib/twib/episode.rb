@@ -86,7 +86,7 @@ module Twib
 
     def summary
       <<~HTML
-        <p>#{short_summary}</p<br/>
+        <p>#{short_summary}</p><br/>
 
         <p><i>The Weather in Brooklyn</i> was created by <a href="https://twitter.com/Hoffm/">Michael Hoffman</a> and is generated automatically. You can view and contribute to its <a href="https://github.com/hoffm/the-weather-in-brooklyn">source code</a>.</p><br/>
         
