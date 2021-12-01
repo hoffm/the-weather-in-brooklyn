@@ -9,7 +9,7 @@ module Twib
         S3_CLIENT.put_object(
           content_type: "application/xml",
           acl: "public-read",
-          bucket: ENV["S3_PODCAST_BUCKET"],
+          bucket: ENV["S3_PUBLIC_BUCKET"],
           key: ENV["S3_RSS_KEY"],
           body: file,
         )
@@ -36,7 +36,7 @@ module Twib
 
     def last_key
       S3_CLIENT.list_objects_v2(
-        bucket: ENV["S3_PODCAST_BUCKET"],
+        bucket: ENV["S3_EPISODES_BUCKET"],
         prefix: "episodes/",
         ).contents.last.key
     end

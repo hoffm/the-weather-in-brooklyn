@@ -45,7 +45,7 @@ module Twib
         S3_CLIENT.put_object(
           content_type: "audio/mpeg",
           acl: "public-read",
-          bucket: ENV["S3_PODCAST_BUCKET"],
+          bucket: ENV["S3_PUBLIC_BUCKET"],
           key: s3_key,
           body: file,
         )
@@ -57,7 +57,7 @@ module Twib
     end
 
     def audio_url
-      "https://s3.amazonaws.com/#{ENV['S3_PODCAST_BUCKET']}/#{s3_key}"
+      "https://s3.amazonaws.com/#{ENV['S3_PUBLIC_BUCKET']}/#{s3_key}"
     end
 
     def audio_duration
@@ -88,7 +88,7 @@ HTML
     end
 
     def pub_date
-      (time.beginning_of_day + 6.hours).rfc2822
+      time.rfc2822
     end
 
     private
