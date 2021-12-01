@@ -18,6 +18,7 @@ module Twib
   SPEECH_PATH = expand_path("tmp/raw_speech.mp3")
   LOGO_PATH = expand_path("tmp/logo.mp3")
   MIX_PATH = expand_path("tmp/final_mix.mp3")
+  # FEED_PATH = expand_path("tmp/feed.rss")
 
   # Data files
   JSON_DIR = expand_path("data/json")

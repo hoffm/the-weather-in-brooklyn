@@ -18,11 +18,15 @@ module Twib
       @time = time
     end
 
+    def to_xml
+      RssBuilder.new.episode_item(data)
+    end
+
     def store_json!
       DataUtils.append_episode_data!(json_for_rss)
     end
 
-    def json_for_rss
+    def data
       {
         number: number,
         title: title,
@@ -64,7 +68,11 @@ module Twib
     end
 
     def s3_key
-      "#{ENV['S3_EPISODES_FOLDER']}/#{number.to_s.rjust(5, "0")}_#{time.strftime('%Y-%m-%d')}.mp3"
+      "#{ENV['S3_EPISODES_FOLDER']}/#{number_string}_#{time.strftime('%Y-%m-%d')}.mp3"
+    end
+
+    def number_string
+      number.to_s.rjust(5, "0")
     end
 
     def title

@@ -25,8 +25,8 @@ module Twib
     episode.upload_audio!
 
     puts "Uploading podcast RSS feed"
-    episode.store_json!
-    Podcast.generate_and_upload_feed!
+    # episode.store_json!
+    Podcast.update_feed!(new_episode: episode)
 
     puts "New episode audio available at #{episode.audio_url}."
     puts "Updated podcast RSS feed available at #{Podcast.url}."
