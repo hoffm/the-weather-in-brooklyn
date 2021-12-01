@@ -8,16 +8,15 @@ module Twib
       File.open(feed_file_path, "rb") do |file|
         S3_CLIENT.put_object(
           content_type: "application/xml",
-          acl: "public-read",
           bucket: ENV["S3_PUBLIC_BUCKET"],
-          key: ENV["S3_RSS_KEY"],
+          key: ENV["S3_FEED_FILE_NAME"],
           body: file,
         )
       end
     end
 
     def url
-      "#{ENV["PUBLIC_HOST"]}/#{ENV["S3_RSS_KEY"]}"
+      "#{ENV["PUBLIC_HOST"]}/#{ENV["S3_FEED_FILE_NAME"]}"
     end
 
     def generate_feed!
@@ -36,7 +35,7 @@ module Twib
 
     def last_key
       S3_CLIENT.list_objects_v2(
-        bucket: ENV["S3_EPISODES_BUCKET"],
+        bucket: ENV["S3_PUBLIC_BUCKET"],
         prefix: "episodes/",
         ).contents.last.key
     end

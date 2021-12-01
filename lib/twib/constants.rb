@@ -25,6 +25,7 @@ module Twib
 
   # Static data
   PODCAST_TITLE = "The Weather in Brooklyn"
+  PODCAST_ART_URL = "https://#{ENV['S3_PUBLIC_BUCKET']}.s3.amazonaws.com/twib.jpg"
   PODCAST_HOMEPAGE = "https://twib.nyc"
 
   PODCAST = {
@@ -43,7 +44,7 @@ module Twib
     },
     itunes_type: "episodic",
     image: {
-      url: "https://s3.amazonaws.com/twib.nyc/twib.jpg",
+      url: PODCAST_ART_URL,
       link: PODCAST_HOMEPAGE,
       title: PODCAST_TITLE
     }

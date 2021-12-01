@@ -5,7 +5,7 @@ module Twib
     def download(target_path:)
       S3_CLIENT.get_object(
         response_target: target_path,
-        bucket: ENV["S3_MEDIA_BUCKET"],
+        bucket: ENV["S3_PRIVATE_BUCKET"],
         key: LOGO_S3_KEY,
       )
     end
