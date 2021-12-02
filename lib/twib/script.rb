@@ -17,7 +17,7 @@ module Twib
     def complete_ssmls
       [
         intro_ssml,
-        *forecast_ssmls.take(3),
+        *forecast_ssmls,
         credits_ssml,
         sign_off_ssml
       ]
@@ -64,7 +64,7 @@ module Twib
         name = period["name"]
         details = expand_abbreviations!(period["detailedForecast"])
         [name, details]
-      end
+      end.take(2)
     end
 
     def expand_abbreviations!(text)

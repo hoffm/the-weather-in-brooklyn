@@ -1,28 +1,74 @@
+# Description
 
-## Description
+This code generates and distributes the podcast [*The Weather in Brooklyn*](https://michaelshoffman.com/the-weather-in-brooklyn). It is intended to be run as a daily cron job.
 
-Generates and distributes the podcast *The Weather in Brooklyn*.
-
-## Set up
-
-### OS X
-
-1. Lame: `$ brew install lame`
-
-2. SoX with Lame: `$ brew install sox --with-lame`
-
-3. `$ bundle install`
-
-4. Create `.env` in project root. This should contain `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `S3_BUCKET`.
+Running the application executes the following steps:
 
 
-## Running
+1. Pull the current forecast for Brooklyn from the [National Weather Service API](https://www.weather.gov/documentation/services-web-api).
+2. Incorporate this forecast to build a script for the podcast episode in [SSML](https://www.w3.org/TR/speech-synthesis11/) format.
+3. Download the audio logo and music for the podcast episode from a designated S3 bucket.
+4. Using [SoX](http://sox.sourceforge.net/), mix the audio components—logo, music, and speech—into the final episode audio.
+5. Upload the episode audio to S3.
+6. Update the podcast RSS feed on S3 with the new episode data.
 
-To create and upload a new episode:
+# Setup
 
-> `$ ruby bin/run.rb`
+## S3
 
-## Development
+The application expects two S3 bucket to exist, one private and one publicly readable.
+
+The private bucket should contain a `music/` folder that contains `.mp3` files with source music, as well as the audio logo at `logo/logo.mp3`.
+
+The public bucket should contain the podcast art as `art.jpg`. The podcast RSS feed and audio files will also be hosted here once the application creates them.
+
+
+## Environment Variables
+
+The application requires several environment variables to be defined. These can defined in `./.env`.
+
+* `AWS_ACCESS_KEY_ID`: AWS key
+* `AWS_SECRET_ACCESS_KEY`: AWS secret key
+* `AWS_REGION`: AWS region for the S3 buckets
+* `S3_PUBLIC_BUCKET`: Name of publicly readable S3 bucket
+* `S3_PRIVATE_BUCKET`: Name of private S3 bucket
+* `S3_EPISODES_FOLDER`: Name of folder in the public bucket where episode audio files live.
+* `S3_FEED_FILE_NAME`: Name of the file in the public bucket where the public RSS feed lives.
+
+## Dependencies
+
+If running with Docker, simply build the docker image:
+
+```
+$ ./bin/docker/build
+```
+
+
+If running natively on OS X:
+
+1. Install [brew](https://brew.sh/).
+1. Install Lame: `$ brew install lame`
+2. Install SoX with Lame: `$ brew install sox --with-lame`
+3. Install Ruby gems: `$ bundle install`
+
+
+# Running the Application
+
+Running with Docker:
+
+```
+$ ./bin/docker/run
+```
+
+Running on OS X:
+
+```
+$ ruby bin/run.rb
+```
+
+
+
+# Development
 
 To launch an IRB session with the app environment loaded:
 
