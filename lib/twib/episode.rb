@@ -84,7 +84,7 @@ module Twib
     end
 
     def title
-      "Episode #{number}: #{Script.date_text}"
+      "#{number}: #{Script.date_text}"
     end
 
     def short_summary
