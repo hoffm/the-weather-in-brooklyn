@@ -40,7 +40,9 @@ module Twib
         subtitle: short_summary,
         description: summary,
         language: "en-us",
-        image_url: PODCAST_ART_URL
+        image_url: PODCAST_ART_URL,
+        guid: episode_code,
+        author: PODCAST[:owner][:name]
       }
     end
 
@@ -68,7 +70,11 @@ module Twib
     end
 
     def s3_key
-      "#{ENV['S3_EPISODES_FOLDER']}/#{number_string}_#{time.strftime('%Y-%m-%d')}.mp3"
+      "#{ENV['S3_EPISODES_FOLDER']}/#{episode_code}.mp3"
+    end
+
+    def episode_code
+      "#{number_string}_#{time.strftime('%Y-%m-%d')}"
     end
 
     def number_string

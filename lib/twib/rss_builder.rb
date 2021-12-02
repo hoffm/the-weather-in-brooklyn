@@ -15,12 +15,15 @@ module Twib
         rss["itunes"].episode data.number
         rss.pubDate data.pub_date
         rss["itunes"].duration data.duration
+        rss["itunes"].author ""
+
         rss["itunes"].image(href: data.image_url)
         rss.enclosure(
           url: enclosure.url,
           length: enclosure.length,
           type: enclosure.type
         )
+        rss.guid episode_code
       end
     end
 
