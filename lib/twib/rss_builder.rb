@@ -1,15 +1,5 @@
 module Twib
   class RssBuilder < Nokogiri::XML::Builder
-    def self.build_podcast_feed
-      new do |rss|
-        rss.podcast_root do |rss|
-          DataUtils.latest_episodes_data.each do |data|
-            rss.episode_item(data)
-          end
-        end
-      end
-    end
-
     def episode_item(data)
       data = OpenStruct.new(data)
       enclosure = OpenStruct.new(data.enclosure)

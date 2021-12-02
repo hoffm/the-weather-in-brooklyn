@@ -18,7 +18,6 @@ module Twib
       new_feed_xml = new_feed.to_xml
 
       # Upload new feed to twib-private/rss/
-
       rss_history_key = "#{ENV["S3_RSS_FOLDER"]}/#{new_episode.number_string}_feed.rss"
 
       S3_CLIENT.put_object(
@@ -47,31 +46,8 @@ module Twib
       ''
     end
 
-    def generate_and_upload_feed!
-      # Download latest RSS feed
-      # Add new episode node
-      # Upload new feed to twib-private/rss/
-      # Upload new feed to twib/feed.rss
-      feed_file_path = generate_feed!
-
-      File.open(feed_file_path, "rb") do |file|
-        S3_CLIENT.put_object(
-          content_type: "application/xml",
-          bucket: ENV["S3_PUBLIC_BUCKET"],
-          key: ENV["S3_FEED_FILE_NAME"],
-          body: file,
-        )
-      end
-    end
-
     def url
       "#{ENV["PUBLIC_HOST"]}/#{ENV["S3_FEED_FILE_NAME"]}"
-    end
-
-    def generate_feed!
-      DataUtils.store_feed!(
-        RssBuilder.build_podcast_feed.to_xml
-      )
     end
 
     def next_episode_number
