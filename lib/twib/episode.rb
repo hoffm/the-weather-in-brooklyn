@@ -82,12 +82,12 @@ module Twib
     end
 
     def title
-      "Episode #{number}: #{date_text}"
+      "Episode #{number}: #{Script.date_text}"
     end
 
     def short_summary
       "This is The Weather in Brooklyn. Welcome. " \
-      "Here is your forecast for #{date_text}."
+      "Here is your forecast for #{Script.date_text}."
     end
 
     def summary
@@ -102,12 +102,6 @@ HTML
 
     def pub_date
       time.rfc2822
-    end
-
-    private
-
-    def date_text
-      time.strftime("%A, %B %e, %Y")
     end
   end
 end

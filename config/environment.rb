@@ -8,7 +8,7 @@ require "json"
 require "nokogiri"
 
 Dotenv.load(
-  '.env', #local
+  '.env', # local
   '/etc/secrets/.render_env' # prod (Render)
 )
 

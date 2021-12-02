@@ -7,11 +7,6 @@ module Twib
       "%" => " percent",
     }.freeze
 
-    INTRO_TEXT = <<~TEXT
-      This is The Weather in Brooklyn. Welcome. 
-      Here is your forecast for #{Time.now.strftime('%A, %B %e, %Y')}.
-    TEXT
-
     CREDITS_TEXT = <<~TEXT
       The Weather in Brooklyn is an automated podcast by Michael Hoffman.
       Music by Jascha Hoffman.
@@ -37,7 +32,7 @@ module Twib
     def intro_ssml
       to_ssml do |ssml|
         ssml.pause 5
-        ssml.text INTRO_TEXT
+        ssml.text intro_text
         ssml.pause 3
       end
     end
@@ -46,13 +41,13 @@ module Twib
       to_ssml do |ssml|
         ssml.pause 10
         ssml.text CREDITS_TEXT
-        ssml.pause 5
+        ssml.pause 2
       end
     end
 
     def sign_off_ssml
       to_ssml do |ssml|
-        ssml.text "Have a lovely day Brooklyn."
+        ssml.text "Have a lovely day."
         ssml.pause 3
       end
     end
@@ -81,6 +76,17 @@ module Twib
       SsmlBuilder.build_ssml do |ssml|
         yield(ssml)
       end.to_xml
+    end
+
+    def intro_text
+      <<~TEXT
+        This is The Weather in Brooklyn. Welcome. 
+        Here is your forecast for #{date_text}.
+      TEXT
+    end
+
+    def date_text
+      "#{Time.now.strftime('%A')}, #{Date.today.to_s(:long_ordinal)}"
     end
   end
 end

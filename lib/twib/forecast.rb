@@ -6,7 +6,7 @@ module Twib
       connection = Faraday.new(
         url: NWS_API_HOST,
         headers: { accept: "application/ld+json" },
-        )
+      )
 
       response = connection.get(NWS_API_PATH)
       JSON.parse(response.body)
