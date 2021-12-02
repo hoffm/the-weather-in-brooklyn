@@ -2,7 +2,6 @@ module Twib
   module Podcast
     module_function
 
-    #  Podcast.update_feed!(new_episode: episode.data)
     def update_feed!(new_episode:)
       # Download latest RSS feed
       existing_feed = Nokogiri::XML(existing_feed_xml)
@@ -16,17 +15,6 @@ module Twib
       end
 
       new_feed_xml = new_feed.to_xml
-
-      # Upload new feed to twib-private/rss/
-      rss_history_key = "#{ENV["S3_RSS_FOLDER"]}/#{new_episode.number_string}_feed.rss"
-
-      S3_CLIENT.put_object(
-        content_type: "application/xml",
-        bucket: ENV["S3_PRIVATE_BUCKET"],
-        key: rss_history_key,
-        body: new_feed_xml,
-      )
-
 
       # Upload new feed to twib/feed.rss
       S3_CLIENT.put_object(
