@@ -28,7 +28,7 @@ module Twib
     title: PODCAST_TITLE,
     link: PODCAST_HOMEPAGE,
     language: 'en-us',
-    description: 'An automated podcast bringing you your daily weather forecast for Brooklyn, NY',
+    description: 'An automated podcast bringing you your daily weather forecast for Brooklyn, NY.',
     editor: 'michael.s.hoffman@gmail.com (Michael Hoffman)',
     categories: [
       ['Society & Culture', ['Places & Travel']],
