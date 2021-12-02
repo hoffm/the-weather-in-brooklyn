@@ -2,21 +2,25 @@ module Twib
   module Podcast
     module_function
 
-    def update_feed!(new_episode:)
+    def build_and_upload_feed!(new_episode:)
+      new_feed_xml = feed_with_new_episode(new_episode)
+      upload_feed!(new_feed_xml)
+    end
+
+    def feed_with_new_episode(new_episode)
       # Download latest RSS feed
       existing_feed = Nokogiri::XML(existing_feed_xml)
 
       # Add new episode node
-      new_feed = RssBuilder.new do |rss|
+      RssBuilder.new do |rss|
         rss.podcast_root do |root|
           root << existing_feed.xpath("rss/channel/item").to_xml
           root.episode_item(new_episode.data)
         end
-      end
+      end.to_xml
+    end
 
-      new_feed_xml = new_feed.to_xml
-
-      # Upload new feed to twib/feed.rss
+    def upload_feed!(new_feed_xml)
       S3_CLIENT.put_object(
         content_type: "application/xml",
         bucket: ENV["S3_PUBLIC_BUCKET"],
@@ -35,7 +39,7 @@ module Twib
     end
 
     def url
-      "#{ENV["PUBLIC_HOST"]}/#{ENV["S3_FEED_FILE_NAME"]}"
+      "https://#{ENV["S3_PUBLIC_BUCKET"]}.s3.amazonaws.com/#{ENV["S3_FEED_FILE_NAME"]}"
     end
 
     def next_episode_number
