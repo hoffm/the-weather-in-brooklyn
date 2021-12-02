@@ -49,9 +49,10 @@ $ ./bin/docker/build
 If running natively on OS X:
 
 1. Install [brew](https://brew.sh/).
-1. Install Lame: `$ brew install lame`
-2. Install SoX with Lame: `$ brew install sox --with-lame`
-3. Install Ruby gems: `$ bundle install`
+2. Install Lame: `$ brew install lame`
+3. Install SoX with Lame: `$ brew install sox --with-lame`
+4. Install Bundler: `$ gem install bundler`
+5. Install Ruby gems: `$ bundle install`
 
 
 ## Running the Application
