@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Twib
   module Script
     module_function
 
     TXT_EXPANSIONS = {
-      "mph" => "miles per hour",
-      "%" => " percent",
+      'mph' => 'miles per hour',
+      '%' => ' percent'
     }.freeze
 
     CREDITS_TEXT = <<~TEXT
@@ -47,7 +49,7 @@ module Twib
 
     def sign_off_ssml
       to_ssml do |ssml|
-        ssml.text "Have a lovely day."
+        ssml.text 'Have a lovely day.'
         ssml.pause 3
       end
     end
@@ -60,9 +62,9 @@ module Twib
     end
 
     def current_forecast
-      Forecast.data["periods"].map do |period|
-        name = period["name"]
-        details = expand_abbreviations!(period["detailedForecast"])
+      Forecast.data['periods'].map do |period|
+        name = period['name']
+        details = expand_abbreviations!(period['detailedForecast'])
         [name, details]
       end.take(2)
     end
@@ -72,15 +74,13 @@ module Twib
       text
     end
 
-    def to_ssml
-      SsmlBuilder.build_ssml do |ssml|
-        yield(ssml)
-      end.to_xml
+    def to_ssml(&block)
+      SsmlBuilder.build_ssml(&block).to_xml
     end
 
     def intro_text
       <<~TEXT
-        This is The Weather in Brooklyn. Welcome. 
+        This is The Weather in Brooklyn. Welcome.#{' '}
         Here is your forecast for #{date_text}.
       TEXT
     end

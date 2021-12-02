@@ -9,3 +9,7 @@ gem 'aws-sdk-s3', '~> 1.106.0'
 gem 'dotenv', '~> 2.7.6'
 gem 'faraday', '~> 1.8.0'
 gem 'nokogiri', '~> 1.12.5'
+
+group :test, :development do
+  gem 'rubocop', '~> 1.23.0'
+end

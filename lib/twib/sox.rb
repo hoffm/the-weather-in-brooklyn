@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Twib
   module Sox
     module_function
@@ -7,7 +9,7 @@ module Twib
     end
 
     def concatenate(source_paths, target_path)
-      `sox #{source_paths.join(" ")} #{target_path}`
+      `sox #{source_paths.join(' ')} #{target_path}`
     end
   end
 end

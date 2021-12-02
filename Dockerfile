@@ -13,6 +13,7 @@ RUN apt-get install \
 RUN gem install bundler:2.2.31
 
 COPY Gemfile Gemfile.lock ./
+RUN bundle config set --local without test development
 RUN bundle install
 
 COPY . ./

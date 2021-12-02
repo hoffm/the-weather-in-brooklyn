@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Twib
   class SsmlBuilder < Nokogiri::XML::Builder
     def self.build_ssml
@@ -10,12 +12,12 @@ module Twib
       self.break(time: "#{seconds.to_f}s")
     end
 
-    def speak_root
+    def speak_root(&block)
       speak(
-        xmlns: "http://www.w3.org/2001/10/synthesis",
-        version: "1.0",
-        "xml:lang" => "en-US",
-        ) { yield }
+        xmlns: 'http://www.w3.org/2001/10/synthesis',
+        version: '1.0',
+        'xml:lang' => 'en-US'
+      ) { block }
     end
   end
 end

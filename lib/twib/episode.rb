@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Twib
   class Episode
     attr_reader :audio_path, :number, :time
@@ -7,7 +9,7 @@ module Twib
         new(
           audio_path: audio_path,
           time: Time.current,
-          number: Podcast.next_episode_number,
+          number: Podcast.next_episode_number
         )
       end
     end
@@ -33,13 +35,13 @@ module Twib
         enclosure: {
           url: audio_url,
           length: audio_size,
-          type: "audio/mpeg",
+          type: 'audio/mpeg'
         },
         pub_date: pub_date,
         duration: audio_duration,
         subtitle: short_summary,
         description: summary,
-        language: "en-us",
+        language: 'en-us',
         image_url: PODCAST_ART_URL,
         guid: episode_code,
         author: PODCAST[:owner][:name]
@@ -47,12 +49,12 @@ module Twib
     end
 
     def upload_audio!
-      File.open(audio_path, "rb") do |file|
+      File.open(audio_path, 'rb') do |file|
         S3_CLIENT.put_object(
-          content_type: "audio/mpeg",
-          bucket: ENV["S3_PUBLIC_BUCKET"],
+          content_type: 'audio/mpeg',
+          bucket: ENV['S3_PUBLIC_BUCKET'],
           key: s3_key,
-          body: file,
+          body: file
         )
       end
     end
@@ -78,7 +80,7 @@ module Twib
     end
 
     def number_string
-      number.to_s.rjust(5, "0")
+      number.to_s.rjust(5, '0')
     end
 
     def title
@@ -86,8 +88,8 @@ module Twib
     end
 
     def short_summary
-      "This is The Weather in Brooklyn. Welcome. " \
-      "Here is your forecast for #{Script.date_text}."
+      'This is The Weather in Brooklyn. Welcome. ' \
+        "Here is your forecast for #{Script.date_text}."
     end
 
     def summary
@@ -95,9 +97,9 @@ module Twib
         <p>#{short_summary}</p><br/>
 
         <p><i>The Weather in Brooklyn</i> was created by <a href="https://twitter.com/Hoffm/">Michael Hoffman</a> and is generated automatically. You can view and contribute to its <a href="https://github.com/hoffm/the-weather-in-brooklyn">source code</a>.</p><br/>
-        
+
         <p>Music by <a href="http://jaschamusic.com/">Jascha Hoffman</a>. Audio logo by <a href="https://twitter.com/unclenatie">Nate Heller</a>. Photograph by <a href="https://www.alexmakotosimpson.com/">Alex Simpson</a></p>.
-HTML
+      HTML
     end
 
     def pub_date

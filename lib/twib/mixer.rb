@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Twib
   class Mixer
     attr_accessor :logo_path, :music_path, :speech_path, :target_path

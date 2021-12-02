@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Twib
   module Forecast
     module_function
@@ -5,7 +7,7 @@ module Twib
     def data
       connection = Faraday.new(
         url: NWS_API_HOST,
-        headers: { accept: "application/ld+json" },
+        headers: { accept: 'application/ld+json' }
       )
 
       response = connection.get(NWS_API_PATH)
