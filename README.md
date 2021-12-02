@@ -1,4 +1,6 @@
-# Description
+# The Weather in Brooklyn
+
+## Description
 
 This code generates and distributes the podcast [*The Weather in Brooklyn*](https://michaelshoffman.com/the-weather-in-brooklyn). It is intended to be run as a daily cron job.
 
@@ -12,9 +14,9 @@ Running the application executes the following steps:
 5. Upload the episode audio to S3.
 6. Update the podcast RSS feed on S3 with the new episode data.
 
-# Setup
+## Setup
 
-## S3
+### S3
 
 The application expects two S3 bucket to exist, one private and one publicly readable.
 
@@ -23,7 +25,7 @@ The private bucket should contain a `music/` folder that contains `.mp3` files w
 The public bucket should contain the podcast art as `art.jpg`. The podcast RSS feed and audio files will also be hosted here once the application creates them.
 
 
-## Environment Variables
+### Environment Variables
 
 The application requires several environment variables to be defined. These can defined in `./.env`.
 
@@ -35,7 +37,7 @@ The application requires several environment variables to be defined. These can 
 * `S3_EPISODES_FOLDER`: Name of folder in the public bucket where episode audio files live.
 * `S3_FEED_FILE_NAME`: Name of the file in the public bucket where the public RSS feed lives.
 
-## Dependencies
+### Dependencies
 
 If running with Docker, simply build the docker image:
 
@@ -52,7 +54,7 @@ If running natively on OS X:
 3. Install Ruby gems: `$ bundle install`
 
 
-# Running the Application
+## Running the Application
 
 Running with Docker:
 
@@ -66,9 +68,7 @@ Running on OS X:
 $ ruby bin/run.rb
 ```
 
-
-
-# Development
+## Development
 
 To launch an IRB session with the app environment loaded:
 
