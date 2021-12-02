@@ -12,12 +12,14 @@ module Twib
       self.break(time: "#{seconds.to_f}s")
     end
 
-    def speak_root(&block)
+    # rubocop:disable Style/ExplicitBlockArgument
+    def speak_root
       speak(
         xmlns: 'http://www.w3.org/2001/10/synthesis',
         version: '1.0',
         'xml:lang' => 'en-US'
-      ) { block }
+      ) { yield }
     end
+    # rubocop:enable Style/ExplicitBlockArgument
   end
 end
