@@ -12,4 +12,5 @@ gem 'nokogiri', '~> 1.12.5'
 
 group :test, :development do
   gem 'rubocop', '~> 1.23.0'
+  gem 'rspec', '~> 3.10.0'
 end
