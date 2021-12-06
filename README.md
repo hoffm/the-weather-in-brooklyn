@@ -2,7 +2,7 @@
 
 ## Description
 
-This code generates and distributes the podcast [*The Weather in Brooklyn*](https://michaelshoffman.com/the-weather-in-brooklyn). It is intended to be run as a daily cron job.
+This code generates and distributes the podcast [*The Weather in Brooklyn*](https://michaelshoffman.com/the-weather-in-brooklyn). It is intended to be run as a daily cron job. For the story behind this code, check out [Could a Podcast Make Itself?](https://hoffm.medium.com/the-weather-in-brooklyn-ddc18439caa).
 
 Running the application executes the following steps:
 
