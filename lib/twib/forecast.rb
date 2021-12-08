@@ -5,13 +5,10 @@ module Twib
     module_function
 
     def data
-      connection = Faraday.new(
-        url: NWS_API_HOST,
-        headers: { accept: 'application/ld+json' }
-      )
-
-      response = connection.get(NWS_API_PATH)
-      JSON.parse(response.body)
+      uri = URI(NWS_API_HOST + NWS_API_PATH)
+      headers = { 'Accept' => 'application/ld+json' }
+      response = Net::HTTP.get(uri, headers)
+      JSON.parse(response)
     end
   end
 end
