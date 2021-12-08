@@ -35,7 +35,7 @@ module Twib
       to_ssml do |ssml|
         ssml.pause 5
         ssml.text intro_text
-        ssml.pause 2
+        ssml.pause 1
         ssml.text advice_text
         ssml.pause 1
         ssml. text "Here's your forecast."
