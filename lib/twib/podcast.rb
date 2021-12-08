@@ -16,8 +16,8 @@ module Twib
       # Add new episode node
       RssBuilder.new do |rss|
         rss.podcast_root do |root|
-          root << existing_feed.xpath('rss/channel/item').to_xml
           root.episode_item(new_episode.data)
+          root << existing_feed.xpath('rss/channel/item').to_xml
         end
       end.to_xml
     end
