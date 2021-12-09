@@ -8,12 +8,13 @@ Running the application executes the following steps:
 
 
 1. Pull the current forecast for Brooklyn from the [National Weather Service API](https://www.weather.gov/documentation/services-web-api).
-2. Incorporate this forecast to build a script for the podcast episode in [SSML](https://www.w3.org/TR/speech-synthesis11/) format.
-3. Use [Amazon Polly](https://aws.amazon.com/polly/) to convert the script SSML into an audio file of spoken words.
-4. Download the audio logo and music for the podcast episode from a designated S3 bucket.
-5. Using [SoX](http://sox.sourceforge.net/), mix the audio components—logo, music, and speech—into the final episode audio.
-6. Upload the episode audio to S3.
-7. Update the podcast RSS feed on S3 with the new episode data.
+2. Generate an editorial description of today's weather using [OpenAI's completions endpoint](https://beta.openai.com/docs/guides/completion/introduction) (GPT-3 model).
+3. Incorporate this forecast and description into a script for the podcast episode in [SSML](https://www.w3.org/TR/speech-synthesis11/) format.
+4. Use [Amazon Polly](https://aws.amazon.com/polly/) to convert the script SSML into an audio file of spoken words.
+5. Download the audio logo and music for the podcast episode from a designated S3 bucket.
+6. Using [SoX](http://sox.sourceforge.net/), mix the audio components—logo, music, and speech—into the final episode audio.
+7. Upload the episode audio to S3.
+8. Update the podcast RSS feed on S3 with the new episode data.
 
 ## Setup
 
@@ -37,6 +38,7 @@ The application requires several environment variables to be defined. These can 
 * `S3_PRIVATE_BUCKET`: Name of private S3 bucket
 * `S3_EPISODES_FOLDER`: Name of folder in the public bucket where episode audio files live.
 * `S3_FEED_FILE_NAME`: Name of the file in the public bucket where the public RSS feed lives.
+* `OPENAI_ACCESS_TOKEN`: OpenAI API token.
 
 ### Dependencies
 

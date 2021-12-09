@@ -26,8 +26,8 @@ module Twib
     end
 
     def forecast_ssmls
-      current_forecast.map do |period|
-        period_ssml(*period)
+      current_forecast.map do |name, details|
+        period_ssml(name, details)
       end
     end
 
@@ -35,7 +35,18 @@ module Twib
       to_ssml do |ssml|
         ssml.pause 5
         ssml.text intro_text
-        ssml.pause 3
+        ssml.pause 1
+        ssml.text advice_text
+        ssml.pause 1
+        ssml.text "Here's your forecast."
+        ssml.pause 2
+      end
+    end
+
+    def period_ssml(name, details)
+      to_ssml do |ssml|
+        ssml.text "#{name}. #{details}"
+        ssml.pause 5
       end
     end
 
@@ -54,15 +65,8 @@ module Twib
       end
     end
 
-    def period_ssml(name, details)
-      to_ssml do |ssml|
-        ssml.text "#{name}. #{details}"
-        ssml.pause 5
-      end
-    end
-
     def current_forecast
-      Forecast.data['periods'].map do |period|
+      @_current_forecast ||= Forecast.data['periods'].map do |period|
         name = period['name']
         details = expand_abbreviations!(period['detailedForecast'])
         [name, details]
@@ -80,9 +84,14 @@ module Twib
 
     def intro_text
       <<~TEXT
-        This is The Weather in Brooklyn. Welcome.#{' '}
-        Here is your forecast for #{date_text}.
+        This is The Weather in Brooklyn. Welcome.
+        It's #{date_text}.
       TEXT
+    end
+
+    def advice_text
+      today_forecast_text = current_forecast[0][1]
+      Advice.new(today_forecast_text).text
     end
 
     def date_text
