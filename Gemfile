@@ -11,5 +11,8 @@ gem 'nokogiri', '~> 1.12.5'
 gem 'ruby-openai', '~> 1.3.1'
 
 group :test, :development do
+  gem 'rspec', '~> 3.10.0'
   gem 'rubocop', '~> 1.23.0'
+  gem 'rubocop-rspec', '~> 2.6.0', require: false
+  gem 'vcr', '~> 6.0.0'
 end
