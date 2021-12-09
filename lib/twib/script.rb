@@ -38,7 +38,7 @@ module Twib
         ssml.pause 1
         ssml.text advice_text
         ssml.pause 1
-        ssml. text "Here's your forecast."
+        ssml.text "Here's your forecast."
         ssml.pause 2
       end
     end
@@ -66,7 +66,7 @@ module Twib
     end
 
     def current_forecast
-      Forecast.data['periods'].map do |period|
+      @_current_forecast ||= Forecast.data['periods'].map do |period|
         name = period['name']
         details = expand_abbreviations!(period['detailedForecast'])
         [name, details]
@@ -90,7 +90,8 @@ module Twib
     end
 
     def advice_text
-      Advice.new(current_forecast[0][1]).text
+      today_forecast_text = current_forecast[0][1]
+      Advice.new(today_forecast_text).text
     end
 
     def date_text
