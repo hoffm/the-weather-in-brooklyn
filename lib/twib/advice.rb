@@ -36,7 +36,7 @@ module Twib
     end
 
     def text
-      if openai_response.has_key?('error')
+      if openai_response.key?('error')
         puts "OPENAI ERROR: #{openai_response}"
         return ''
       end
