@@ -36,13 +36,18 @@ module Twib
     end
 
     def text
+      if openai_response.has_key?('error')
+        puts "OPENAI ERROR: #{openai_response}"
+        return ''
+      end
+
       openai_response.dig('choices', 0, 'text').strip
     end
 
     private
 
     def openai_response
-      openai_client.completions(
+      @_openai_response ||= openai_client.completions(
         engine: OPENAI_ENGINE,
         parameters: { **OPENAI_PARAMS, prompt: prompt(forecast) }
       )
