@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe Twib do
-  let(:s3_client) { Twib::S3_CLIENT }
-  let(:poly_client) { Twib::POLLY_CLIENT }
+  let(:public_bucket_name) { ENV['S3_PUBLIC_BUCKET'] }
+  let(:private_bucket_name) { ENV['S3_PRIVATE_BUCKET'] }
+  let(:episodes_folder) { ENV['S3_EPISODES_FOLDER'] }
+
+  let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
+  let(:poly_client) { Aws::Polly::Client.new(stub_responses: true) }
+
   let(:mixer_double) do
     object_double(
       Twib::Mixer.new(
@@ -16,12 +21,12 @@ RSpec.describe Twib do
 
   let(:openai_client) { OpenAI::Client.new }
 
-  let(:fake_s3) do
+  let(:base_fake_s3) do
     {
-      ENV['S3_PUBLIC_BUCKET'] => {
-        ENV['S3_EPISODES_FOLDER'] => {}
+      public_bucket_name => {
+        episodes_folder => {}
       },
-      ENV['S3_PRIVATE_BUCKET'] => {
+      private_bucket_name => {
         'music' => {
           'song.mp3' => 'some music'
         },
@@ -33,19 +38,41 @@ RSpec.describe Twib do
   end
 
   before do
-    stub_const(
-      'Twib::S3_CLIENT',
-      Aws::S3::Client.new(stub_responses: true)
-    )
+    stub_const('Twib::S3_CLIENT', s3_client)
+    stub_s3_get_object
+    stub_s3_list_objects
 
-    stub_const(
-      'Twib::POLLY_CLIENT',
-      Aws::Polly::Client.new(stub_responses: true)
-    )
+    stub_const('Twib::POLLY_CLIENT', poly_client)
+    stub_polly_describe_voices
 
+    stub_nws_api
+
+    allow(Twib::Mixer).to receive(:new).and_return(mixer_double)
+
+    allow(OpenAI::Client).to receive(:new)
+      .and_return(openai_client)
+  end
+
+  context 'when no episodes have been published' do
+    let(:fake_s3) { base_fake_s3 }
+
+    it 'builds and publishes an episode' do
+      expect_polly_call.exactly(5).times
+      expect_openai_call
+      expect(mixer_double).to receive(:mix)
+      expect_episode_audio_upload
+      expect_podcast_feed_upload
+
+      described_class.run
+    end
+  end
+
+  # STUBBING
+
+  def stub_s3_get_object
     s3_client.stub_responses(
       :get_object,
-      lambda { |context|
+      lambda do |context|
         params = context.params
         bucket = params[:bucket]
         key = params[:key]
@@ -61,12 +88,14 @@ RSpec.describe Twib do
         else
           'NoSuchBucket'
         end
-      }
+      end
     )
+  end
 
+  def stub_s3_list_objects
     s3_client.stub_responses(
       :list_objects_v2,
-      lambda { |context|
+      lambda do |context|
         params = context.params
 
         bucket = params[:bucket]
@@ -89,9 +118,11 @@ RSpec.describe Twib do
         else
           'NoSuchBucket'
         end
-      }
+      end
     )
+  end
 
+  def stub_polly_describe_voices
     poly_client.stub_responses(
       :describe_voices,
       {
@@ -101,24 +132,16 @@ RSpec.describe Twib do
         ]
       }
     )
+  end
 
-    allow(Twib::Mixer).to receive(:new).and_return(mixer_double)
-
-    allow(OpenAI::Client).to receive(:new)
-      .and_return(openai_client)
-
+  def stub_nws_api
     stub_request(:get, /api.weather.gov/)
-      .to_return(body: File.read('spec/fixtures/nws_response.json'))
+      .to_return(
+        body: File.read('spec/fixtures/nws_response.json')
+      )
   end
 
-  it 'Full run from zero state' do
-    expect_polly_call.exactly(5).times
-    expect_openai_call
-    expect(mixer_double).to receive(:mix)
-    expect_episode_audio_upload
-    expect_podcast_feed_upload
-    described_class.run
-  end
+  # EXPECTATIONS
 
   def expect_polly_call
     expect(poly_client).to receive(:synthesize_speech) do |params|
