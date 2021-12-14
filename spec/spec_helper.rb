@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require 'vcr'
-
-VCR.configure do |config|
-  config.cassette_library_dir = 'fixtures/vcr_cassettes'
-  config.hook_into :webmock
-end
+require './lib/twib'
+require 'dotenv'
+require 'pry'
+require 'webmock/rspec'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

@@ -49,14 +49,18 @@ module Twib
     end
 
     def number_from_key(key)
+      return 0 if last_key.nil?
+
       key.split('/').last.split('_').first.to_i
     end
 
     def last_key
-      S3_CLIENT.list_objects_v2(
+      last_episode = S3_CLIENT.list_objects_v2(
         bucket: ENV['S3_PUBLIC_BUCKET'],
         prefix: "#{ENV['S3_EPISODES_FOLDER']}/"
-      ).contents.last.key
+      ).contents.last
+
+      last_episode ? last_episode.key : nil
     end
   end
 end

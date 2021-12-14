@@ -1,0 +1,14 @@
+{
+  "id": "cmpl-4EsCSFkIgQiHWdD2dHyEnpylFIAQI",
+  "object": "text_completion",
+  "created": 1639450284,
+  "model": "davinci:2020-05-03",
+  "choices": [
+    {
+      "text": " It's a nice day! It's sunny and warm! You should go outside!",
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ]
+}
