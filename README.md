@@ -78,3 +78,7 @@ To launch an IRB session with the app environment loaded:
 
 > `$ bin/irb.sh`
 
+Tests exercise the app's behavior with all netwrok requests stubbed out. To run tests:
+
+> `$ bundle exec rspec`
+

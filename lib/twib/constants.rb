@@ -7,6 +7,7 @@ module Twib
 
   # AWS
   S3_CLIENT = Aws::S3::Client.new
+  POLLY_CLIENT = Aws::Polly::Client.new
   LOGO_S3_KEY = 'logo/logo.mp3'
 
   def self.expand_path(path)

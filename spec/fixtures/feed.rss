@@ -1,0 +1,48 @@
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<channel>
+<title>The Weather in Brooklyn</title>
+<description>
+<![CDATA[ An automated podcast bringing you your daily weather forecast for Brooklyn, NY. ]]>
+</description>
+<itunes:summary>An automated podcast bringing you your daily weather forecast for Brooklyn, NY.</itunes:summary>
+<managingEditor>michael.s.hoffman@gmail.com (Michael Hoffman)</managingEditor>
+<copyright>Michael S. Hoffman</copyright>
+<link>https://michaelshoffman.com/the-weather-in-brooklyn</link>
+<itunes:owner>
+<itunes:email>michael.s.hoffman@gmail.com</itunes:email>
+<itunes:name>Michael S. Hoffman</itunes:name>
+</itunes:owner>
+<itunes:author>Michael S. Hoffman</itunes:author>
+<language>en-us</language>
+<itunes:category text="Society & Culture">
+<itunes:category text="Places & Travel"/>
+</itunes:category>
+<itunes:category text="Science">
+<itunes:category text="Nature"/>
+</itunes:category>
+<itunes:image href="https://twib.s3.amazonaws.com/art.jpg"/>
+<image>
+<url>https://twib.s3.amazonaws.com/art.jpg</url>
+<link>https://michaelshoffman.com/the-weather-in-brooklyn</link>
+<title>The Weather in Brooklyn</title>
+</image>
+<itunes:explicit>no</itunes:explicit>
+<atom:link href="https://twib.s3.amazonaws.com/feed.rss" rel="self" type="application/rss+xml"/>
+<item>
+<title>1: Tuesday, December 14th, 2021</title>
+<description>
+<![CDATA[ <p>This is <i>The Weather in Brooklyn</i>. Welcome. Here is your forecast for Tuesday, December 14th, 2021.</p> <p><i>The Weather in Brooklyn</i> was created by <a href="https://twitter.com/Hoffm/">Michael Hoffman</a> and is generated automatically. You can view and contribute to its <a href="https://github.com/hoffm/the-weather-in-brooklyn">source code</a>.</p> <p>Weather forecast courtesy of the <a href="https://www.weather.gov/">National Weather Service</a>. Music by <a href="http://jaschamusic.com/">Jascha Hoffman</a>. Audio logo by <a href="https://twitter.com/unclenatie">Nate Heller</a>. Photograph by <a href="https://www.alexmakotosimpson.com/">Alex Simpson</a>.</p> ]]>
+</description>
+<content:encoded>
+<![CDATA[ <p>This is <i>The Weather in Brooklyn</i>. Welcome. Here is your forecast for Tuesday, December 14th, 2021.</p> <p><i>The Weather in Brooklyn</i> was created by <a href="https://twitter.com/Hoffm/">Michael Hoffman</a> and is generated automatically. You can view and contribute to its <a href="https://github.com/hoffm/the-weather-in-brooklyn">source code</a>.</p> <p>Weather forecast courtesy of the <a href="https://www.weather.gov/">National Weather Service</a>. Music by <a href="http://jaschamusic.com/">Jascha Hoffman</a>. Audio logo by <a href="https://twitter.com/unclenatie">Nate Heller</a>. Photograph by <a href="https://www.alexmakotosimpson.com/">Alex Simpson</a>.</p> ]]>
+</content:encoded>
+<itunes:episode>1</itunes:episode>
+<pubDate>Tue, 14 Dec 2021 06:12:54 -0500</pubDate>
+<itunes:duration>97</itunes:duration>
+<itunes:author>Michael S. Hoffman</itunes:author>
+<itunes:image href="https://twib.s3.amazonaws.com/art.jpg"/>
+<enclosure url="https://twib.s3.amazonaws.com/episodes/00001_2021-12-14.mp3" length="1543941" type="audio/mpeg"/>
+<guid>00001_2021-12-14</guid>
+</item>
+</channel>
+</rss>
