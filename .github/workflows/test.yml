@@ -1,0 +1,24 @@
+name: Test
+
+on: push
+
+jobs:
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: fake-aws-key-id
+      AWS_SECRET_ACCESS_KEY: fake-aws-secret-access-key
+      AWS_REGION: us-east-1
+      S3_PUBLIC_BUCKET: twib
+      S3_PRIVATE_BUCKET: twib-private
+      S3_EPISODES_FOLDER: episodes-test
+      S3_FEED_FILE_NAME: feed_test.rss
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: mkdir tmp
+      - run: bundle exec rspec
