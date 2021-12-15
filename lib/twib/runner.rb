@@ -2,6 +2,8 @@
 
 module Twib
   def self.run
+    FileUtils.mkdir_p(TMP_DIR)
+
     puts 'Generating forecast'
     forecast_ssmls = Script.complete_ssmls
 

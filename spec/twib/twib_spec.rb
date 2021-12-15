@@ -64,7 +64,8 @@ RSpec.describe Twib do
     it 'builds and publishes an episode' do
       expect_polly_call.exactly(5).times
       expect_openai_call
-      expect(mixer_double).to receive(:mix)
+      expect_mixer_to_run
+
       expect_episode_audio_upload do |params|
         expect(params[:key]).to match(episode_title_pattern(1))
       end
@@ -99,7 +100,7 @@ RSpec.describe Twib do
     it 'builds and publishes another episode' do
       expect_polly_call.exactly(5).times
       expect_openai_call
-      expect(mixer_double).to receive(:mix)
+      expect_mixer_to_run
       expect_episode_audio_upload do |params|
         expect(params[:key]).to match(episode_title_pattern(2))
       end
@@ -220,6 +221,13 @@ RSpec.describe Twib do
         File.read('spec/fixtures/openai_response.json')
       )
     )
+  end
+
+  def expect_mixer_to_run
+    expect(mixer_double).to receive(:mix) do
+      File.write(Twib::MIX_PATH, 'full episode audio')
+      Twib::MIX_PATH
+    end
   end
 
   def expect_episode_audio_upload

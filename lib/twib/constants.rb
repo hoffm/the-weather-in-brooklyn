@@ -10,15 +10,12 @@ module Twib
   POLLY_CLIENT = Aws::Polly::Client.new
   LOGO_S3_KEY = 'logo/logo.mp3'
 
-  def self.expand_path(path)
-    File.expand_path('./', path)
-  end
-
   # Temp files
-  MUSIC_PATH = expand_path('tmp/raw_music.mp3')
-  SPEECH_PATH = expand_path('tmp/raw_speech.mp3')
-  LOGO_PATH = expand_path('tmp/logo.mp3')
-  MIX_PATH = expand_path('tmp/final_mix.mp3')
+  TMP_DIR = File.expand_path('./', 'tmp')
+  MUSIC_PATH = File.join(TMP_DIR, 'raw_music.mp3')
+  SPEECH_PATH = File.join(TMP_DIR, 'raw_speech.mp3')
+  LOGO_PATH = File.join(TMP_DIR, 'logo.mp3')
+  MIX_PATH = File.join(TMP_DIR, 'final_mix.mp3')
 
   # Static data
   PODCAST_TITLE = 'The Weather in Brooklyn'
