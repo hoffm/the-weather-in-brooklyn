@@ -39,8 +39,6 @@ RSpec.describe Twib do
   end
 
   before do
-    allow($stdout).to receive(:puts)
-
     allow(Twib::Sox).to receive(:duration_in_seconds)
       .and_return(60)
     allow(Twib::Sox).to receive(:concatenate)
@@ -68,9 +66,7 @@ RSpec.describe Twib do
       expect_openai_call
       expect(mixer_double).to receive(:mix)
       expect_episode_audio_upload do |params|
-        expect(params[:key]).to match(
-          %r{^#{ENV['S3_EPISODES_FOLDER']}/00001_([0-9]{4})-([0-9]{2})-([0-9]{2})\.mp3$}
-        )
+        expect(params[:key]).to match(episode_title_pattern(1))
       end
 
       expect_podcast_feed_upload do |rss|
@@ -84,7 +80,7 @@ RSpec.describe Twib do
         expect(episode_title).to start_with('1: ')
       end
 
-      described_class.run
+      silence_puts { described_class.run }
     end
   end
 
@@ -105,9 +101,7 @@ RSpec.describe Twib do
       expect_openai_call
       expect(mixer_double).to receive(:mix)
       expect_episode_audio_upload do |params|
-        expect(params[:key]).to match(
-          %r{^#{ENV['S3_EPISODES_FOLDER']}/00002_([0-9]{4})-([0-9]{2})-([0-9]{2})\.mp3$}
-        )
+        expect(params[:key]).to match(episode_title_pattern(2))
       end
 
       expect_podcast_feed_upload do |rss|
@@ -116,12 +110,14 @@ RSpec.describe Twib do
 
         episode_count = rss.xpath('rss/channel/item').count
         expect(episode_count).to eq(2)
-        episode_title = rss.xpath('rss/channel/item/title').text
 
-        expect(episode_title).to start_with('2: ')
+        episode_titles = rss.xpath('rss/channel/item/title').map(&:text)
+
+        expect(episode_titles[0]).to start_with('2: ')
+        expect(episode_titles[1]).to start_with('1: ')
       end
 
-      described_class.run
+      silence_puts { described_class.run }
     end
   end
 
@@ -244,5 +240,20 @@ RSpec.describe Twib do
 
       yield(rss)
     end
+  end
+
+  # UTILITY
+
+  def silence_puts
+    allow($stdout).to receive(:puts)
+    yield
+    allow($stdout).to receive(:puts).and_call_original
+  end
+
+  def episode_title_pattern(number)
+    folder_name = ENV['S3_EPISODES_FOLDER']
+    episode_number = number.to_s.rjust(5, '0')
+    date_pattern = '([0-9]{4})-([0-9]{2})-([0-9]{2})'
+    %r{^#{folder_name}/#{episode_number}_#{date_pattern}\.mp3$}
   end
 end
