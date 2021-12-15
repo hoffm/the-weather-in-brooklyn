@@ -1,3 +1,5 @@
+[![Test](https://github.com/hoffm/the-weather-in-brooklyn/actions/workflows/test.yml/badge.svg)](https://github.com/hoffm/the-weather-in-brooklyn/actions/workflows/test.yml) [![Lint](https://github.com/hoffm/the-weather-in-brooklyn/actions/workflows/lint.yml/badge.svg)](https://github.com/hoffm/the-weather-in-brooklyn/actions/workflows/lint.yml)
+
 # The Weather in Brooklyn
 
 ## Description
