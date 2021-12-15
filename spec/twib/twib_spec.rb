@@ -4,6 +4,7 @@ RSpec.describe Twib do
   let(:public_bucket_name) { ENV['S3_PUBLIC_BUCKET'] }
   let(:private_bucket_name) { ENV['S3_PRIVATE_BUCKET'] }
   let(:episodes_folder) { ENV['S3_EPISODES_FOLDER'] }
+  let(:feed_file_name) { ENV['S3_FEED_FILE_NAME'] }
 
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
   let(:poly_client) { Aws::Polly::Client.new(stub_responses: true) }
@@ -38,6 +39,12 @@ RSpec.describe Twib do
   end
 
   before do
+    allow($stdout).to receive(:puts)
+
+    allow(Twib::Sox).to receive(:duration_in_seconds)
+      .and_return(60)
+    allow(Twib::Sox).to receive(:concatenate)
+
     stub_const('Twib::S3_CLIENT', s3_client)
     stub_s3_get_object
     stub_s3_list_objects
@@ -60,8 +67,59 @@ RSpec.describe Twib do
       expect_polly_call.exactly(5).times
       expect_openai_call
       expect(mixer_double).to receive(:mix)
-      expect_episode_audio_upload
-      expect_podcast_feed_upload
+      expect_episode_audio_upload do |params|
+        expect(params[:key]).to match(
+          %r{^#{ENV['S3_EPISODES_FOLDER']}/00001_([0-9]{4})-([0-9]{2})-([0-9]{2})\.mp3$}
+        )
+      end
+
+      expect_podcast_feed_upload do |rss|
+        podcast_title = rss.xpath('rss/channel/title').text
+        expect(podcast_title).to eq('The Weather in Brooklyn')
+
+        episode_count = rss.xpath('rss/channel/item').count
+        expect(episode_count).to eq(1)
+        episode_title = rss.xpath('rss/channel/item/title').text
+
+        expect(episode_title).to start_with('1: ')
+      end
+
+      described_class.run
+    end
+  end
+
+  context 'when an episode has been published already' do
+    let(:fake_s3) do
+      res = base_fake_s3
+      res[public_bucket_name][episodes_folder] = {
+        '00001_2021-12-03.mp3' => 'first episode audio'
+      }
+
+      existing_feed = File.read('spec/fixtures/feed.rss')
+      res[public_bucket_name][feed_file_name] = existing_feed
+      res
+    end
+
+    it 'builds and publishes another episode' do
+      expect_polly_call.exactly(5).times
+      expect_openai_call
+      expect(mixer_double).to receive(:mix)
+      expect_episode_audio_upload do |params|
+        expect(params[:key]).to match(
+          %r{^#{ENV['S3_EPISODES_FOLDER']}/00002_([0-9]{4})-([0-9]{2})-([0-9]{2})\.mp3$}
+        )
+      end
+
+      expect_podcast_feed_upload do |rss|
+        podcast_title = rss.xpath('rss/channel/title').text
+        expect(podcast_title).to eq('The Weather in Brooklyn')
+
+        episode_count = rss.xpath('rss/channel/item').count
+        expect(episode_count).to eq(2)
+        episode_title = rss.xpath('rss/channel/item/title').text
+
+        expect(episode_title).to start_with('2: ')
+      end
 
       described_class.run
     end
@@ -172,9 +230,7 @@ RSpec.describe Twib do
     expect(s3_client).to receive(:put_object) do |params|
       expect(params[:content_type]).to eq('audio/mpeg')
       expect(params[:bucket]).to eq(ENV['S3_PUBLIC_BUCKET'])
-      expect(params[:key]).to match(
-        %r{^#{ENV['S3_EPISODES_FOLDER']}/00001_([0-9]{4})-([0-9]{2})-([0-9]{2})\.mp3$}
-      )
+      yield(params)
     end
   end
 
@@ -183,10 +239,10 @@ RSpec.describe Twib do
       expect(params[:content_type]).to eq('application/xml')
       expect(params[:bucket]).to eq(ENV['S3_PUBLIC_BUCKET'])
       expect(params[:key]).to match(ENV['S3_FEED_FILE_NAME'])
-      expect(params[:body]).to match(
-        %r{<title>The Weather in Brooklyn</title>}
-      )
-      expect(params[:body]).to match(/<item>/)
+
+      rss = Nokogiri::XML(params[:body])
+
+      yield(rss)
     end
   end
 end
