@@ -7,7 +7,7 @@ RSpec.describe Twib do
   let(:feed_file_name) { ENV['S3_FEED_FILE_NAME'] }
 
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
-  let(:poly_client) { Aws::Polly::Client.new(stub_responses: true) }
+  let(:polly_client) { Aws::Polly::Client.new(stub_responses: true) }
 
   let(:mixer_double) do
     object_double(
@@ -47,7 +47,7 @@ RSpec.describe Twib do
     stub_s3_get_object
     stub_s3_list_objects
 
-    stub_const('Twib::POLLY_CLIENT', poly_client)
+    stub_const('Twib::POLLY_CLIENT', polly_client)
     stub_polly_describe_voices
 
     stub_nws_api
@@ -178,7 +178,7 @@ RSpec.describe Twib do
   end
 
   def stub_polly_describe_voices
-    poly_client.stub_responses(
+    polly_client.stub_responses(
       :describe_voices,
       {
         voices: [
@@ -199,12 +199,12 @@ RSpec.describe Twib do
   # EXPECTATIONS
 
   def expect_polly_call
-    expect(poly_client).to receive(:synthesize_speech) do |params|
+    expect(polly_client).to receive(:synthesize_speech) do |params|
       expect(params[:output_format]).to eq('mp3')
       expect(params[:voice_id]).to eq('Emma')
       expect(params[:engine]).to eq('neural')
       expect(params[:text]).to match(/<speak xmlns/)
-      expect(params[:response_target]).to match(/^#{ENV['SPEECH_PATH']}/)
+      expect(params[:response_target]).to match(/raw_speech/)
     end
   end
 
