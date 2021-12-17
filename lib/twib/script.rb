@@ -4,6 +4,8 @@ module Twib
   module Script
     module_function
 
+    FORECAST_PERIODS_COUNT = 2
+
     TXT_EXPANSIONS = {
       'mph' => 'miles per hour',
       '%' => ' percent'
@@ -15,6 +17,8 @@ module Twib
       Audio logo by Nate Heller.
       Podcast photograph by Alex Simpson.
     TEXT
+
+    SIGN_OFF_TEXT = 'Have a lovely day.'
 
     def complete_ssmls
       [
@@ -60,7 +64,7 @@ module Twib
 
     def sign_off_ssml
       to_ssml do |ssml|
-        ssml.text 'Have a lovely day.'
+        ssml.text SIGN_OFF_TEXT
         ssml.pause 3
       end
     end
@@ -70,7 +74,7 @@ module Twib
         name = period['name']
         details = expand_abbreviations!(period['detailedForecast'])
         [name, details]
-      end.take(2)
+      end.take(FORECAST_PERIODS_COUNT)
     end
 
     def expand_abbreviations!(text)
