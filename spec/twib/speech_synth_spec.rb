@@ -55,5 +55,19 @@ RSpec.describe Twib::SpeechSynth do
 
       described_class.bulk_synthesize(ssmls)
     end
+
+    it 'concatenates the audio files and saves the result' do
+      tmp_files = ssmls.count.times.map do |n|
+        "raw_speech_#{n}.mp3"
+      end
+
+      expect(Twib::Sox).to receive(:concatenate)
+        .with(
+          tmp_files.map(&method(:end_with)),
+          Twib::SPEECH_PATH
+        )
+
+      described_class.bulk_synthesize(ssmls)
+    end
   end
 end
