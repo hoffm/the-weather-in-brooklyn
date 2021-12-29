@@ -125,7 +125,7 @@ RSpec.describe Twib::RssBuilder do
           channel_element,
           name: 'image',
           namespace: 'itunes',
-          text: '' # URL in href attribute
+          text: ''
         )
       end
 
@@ -207,6 +207,192 @@ RSpec.describe Twib::RssBuilder do
           type = link_element.attributes['type'].value
           expect(type).to eq('application/rss+xml')
         end
+      end
+    end
+  end
+
+  describe '#episode_item' do
+    let(:episode_data) do
+      {
+        number: 42,
+        title: 'title',
+        enclosure: {
+          url: 'audio url',
+          length: 100,
+          type: 'audio/mpeg'
+        },
+        pub_date: 'pub date',
+        duration: 100,
+        subtitle: 'sub title',
+        description: 'description',
+        language: 'en-us',
+        image_url: 'image url',
+        guid: 'guid',
+        author: 'author'
+      }
+    end
+
+    let(:result) do
+      described_class.new do
+        podcast_root do |rss|
+          rss.episode_item(episode_data)
+        end
+      end
+    end
+
+    let(:episode_element) do
+      result.doc.xpath('rss/channel/item').first
+    end
+
+    it 'produces an item element' do
+      expect(episode_element.name).to eq('item')
+    end
+
+    describe 'item element' do
+      it 'has a title element' do
+        expect_child_element(
+          episode_element,
+          name: 'title',
+          text: episode_data[:title]
+        )
+      end
+
+      it 'has a description element' do
+        expect_child_element(
+          episode_element,
+          name: 'description',
+          text: episode_data[:description]
+        )
+      end
+
+      describe 'description element' do
+        let(:description_element) do
+          episode_element.xpath('description').first
+        end
+
+        it 'has CDATA' do
+          expect_child_element(
+            description_element,
+            name: '#cdata-section',
+            text: episode_data[:description]
+          )
+        end
+      end
+
+      it 'has a content encoded element' do
+        expect_child_element(
+          episode_element,
+          name: 'encoded',
+          namespace: 'content'
+        )
+      end
+
+      describe 'content encoded element' do
+        let(:encoded_element) do
+          episode_element.xpath('content:encoded').first
+        end
+
+        it 'has CDATA' do
+          expect_child_element(
+            encoded_element,
+            name: '#cdata-section',
+            text: episode_data[:description]
+          )
+        end
+      end
+
+      it 'has an itunes episode element' do
+        expect_child_element(
+          episode_element,
+          name: 'episode',
+          text: episode_data[:number].to_s,
+          namespace: 'itunes'
+        )
+      end
+
+      it 'has a pubDate element' do
+        expect_child_element(
+          episode_element,
+          name: 'pubDate',
+          text: episode_data[:pub_date]
+        )
+      end
+
+      it 'has an itunes duration element' do
+        expect_child_element(
+          episode_element,
+          name: 'duration',
+          text: episode_data[:duration].to_s,
+          namespace: 'itunes'
+        )
+      end
+
+      it 'has an itunes author element' do
+        expect_child_element(
+          episode_element,
+          name: 'author',
+          text: episode_data[:author],
+          namespace: 'itunes'
+        )
+      end
+
+      it 'has an itunes image element' do
+        expect_child_element(
+          episode_element,
+          name: 'image',
+          text: '',
+          namespace: 'itunes'
+        )
+      end
+
+      describe 'itunes image element' do
+        let(:image_element) do
+          episode_element.xpath('itunes:image').first
+        end
+
+        it 'has an href attribute' do
+          href = image_element.attributes['href'].value
+          expect(href).to eq(episode_data[:image_url])
+        end
+      end
+
+      it 'has an enclosure element' do
+        expect_child_element(
+          episode_element,
+          name: 'enclosure',
+          text: ''
+        )
+      end
+
+      describe 'enclosure element' do
+        let(:enclosure_element) do
+          episode_element.xpath('enclosure').first
+        end
+
+        let(:enclosure_data) { episode_data[:enclosure] }
+
+        it 'has a url attribute' do
+          url = enclosure_element.attributes['url'].value
+          expect(url).to eq(enclosure_data[:url])
+        end
+
+        it 'has a length attribute' do
+          length = enclosure_element.attributes['length'].value
+          expect(length).to eq(enclosure_data[:length].to_s)
+        end
+
+        it 'has a type attribute' do
+          type = enclosure_element.attributes['type'].value
+          expect(type).to eq(enclosure_data[:type])
+        end
+      end
+
+      it 'has a guid element' do
+        expect_child_element(
+          episode_element,
+          name: 'guid',
+          text: episode_data[:guid]
+        )
       end
     end
   end
