@@ -20,14 +20,6 @@ module Twib
       @time = time
     end
 
-    def to_xml
-      RssBuilder.new.episode_item(data)
-    end
-
-    def store_json!
-      DataUtils.append_episode_data!(json_for_rss)
-    end
-
     def data
       {
         number: number,

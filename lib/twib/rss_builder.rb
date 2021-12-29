@@ -15,7 +15,6 @@ module Twib
         rss.pubDate data[:pub_date]
         rss['itunes'].duration data[:duration]
         rss['itunes'].author data[:author]
-
         rss['itunes'].image(href: data[:image_url])
         rss.enclosure(
           url: data[:enclosure][:url],
