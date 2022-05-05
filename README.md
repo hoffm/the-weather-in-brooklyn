@@ -47,7 +47,7 @@ The application requires several environment variables to be defined. These can 
 If running with Docker, simply build the docker image:
 
 ```
-$ ./bin/docker/build
+$ ./bin/docker/build.sh
 ```
 
 
@@ -65,7 +65,7 @@ If running natively on OS X:
 Running with Docker:
 
 ```
-$ ./bin/docker/run
+$ ./bin/docker/run.sh
 ```
 
 Running on OS X:
