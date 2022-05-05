@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-FROM ruby:3.0.2 AS base
+FROM ruby:3.1.2 AS base
 
 RUN apt-get update
 
@@ -10,7 +10,7 @@ RUN apt-get install \
     libsox-fmt-mp3 \
     --yes
 
-RUN gem install bundler:2.2.31
+RUN gem install bundler:2.3.13
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle config set --local without test development
