@@ -99,7 +99,7 @@ module Twib
     end
 
     def date_text
-      "#{Time.now.strftime('%A')}, #{Date.today.to_s(:long_ordinal)}"
+      "#{Time.now.strftime('%A')}, #{Date.today.to_fs(:long_ordinal)}"
     end
   end
 end
