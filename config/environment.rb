@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'active_support'
 require 'active_support/time'
 require 'aws-sdk-polly'
 require 'aws-sdk-s3'
