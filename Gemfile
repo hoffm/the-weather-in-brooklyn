@@ -8,7 +8,7 @@ gem 'aws-sdk-polly', '~> 1.55.0'
 gem 'aws-sdk-s3', '~> 1.114.0'
 gem 'dotenv', '~> 2.7.6'
 gem 'nokogiri', '~> 1.13.5'
-gem 'ruby-openai', '~> 1.3.1'
+gem 'ruby-openai', '~> 1.4.0'
 
 group :test, :development do
   gem 'pry', '~> 0.14.1'
