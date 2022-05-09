@@ -19,7 +19,7 @@ module Twib
 
   # Static data
   PODCAST_TITLE = 'The Weather in Brooklyn'
-  PODCAST_ART_URL = "https://#{ENV['S3_PUBLIC_BUCKET']}.s3.amazonaws.com/art.jpg".freeze
+  PODCAST_ART_URL = "https://#{ENV.fetch('S3_PUBLIC_BUCKET', nil)}.s3.amazonaws.com/art.jpg".freeze
   PODCAST_HOMEPAGE = 'https://michaelshoffman.com/the-weather-in-brooklyn'
 
   PODCAST = {

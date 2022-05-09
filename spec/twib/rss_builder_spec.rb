@@ -405,9 +405,9 @@ RSpec.describe Twib::RssBuilder do
 
     expect(element.children.to_a).to include(
       an_object_having_attributes(
-        text: text,
+        text:,
         name: opts[:name],
-        namespace: namespace
+        namespace:
       )
     ).exactly(count).times
   end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe Twib do
-  let(:public_bucket_name) { ENV['S3_PUBLIC_BUCKET'] }
-  let(:private_bucket_name) { ENV['S3_PRIVATE_BUCKET'] }
-  let(:episodes_folder) { ENV['S3_EPISODES_FOLDER'] }
-  let(:feed_file_name) { ENV['S3_FEED_FILE_NAME'] }
+  let(:public_bucket_name) { ENV.fetch('S3_PUBLIC_BUCKET', nil) }
+  let(:private_bucket_name) { ENV.fetch('S3_PRIVATE_BUCKET', nil) }
+  let(:episodes_folder) { ENV.fetch('S3_EPISODES_FOLDER', nil) }
+  let(:feed_file_name) { ENV.fetch('S3_FEED_FILE_NAME', nil) }
 
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
   let(:polly_client) { Aws::Polly::Client.new(stub_responses: true) }
@@ -233,7 +233,7 @@ RSpec.describe Twib do
   def expect_episode_audio_upload
     expect(s3_client).to receive(:put_object) do |params|
       expect(params[:content_type]).to eq('audio/mpeg')
-      expect(params[:bucket]).to eq(ENV['S3_PUBLIC_BUCKET'])
+      expect(params[:bucket]).to eq(ENV.fetch('S3_PUBLIC_BUCKET', nil))
       yield(params)
     end
   end
@@ -241,8 +241,8 @@ RSpec.describe Twib do
   def expect_podcast_feed_upload
     expect(s3_client).to receive(:put_object) do |params|
       expect(params[:content_type]).to eq('application/xml')
-      expect(params[:bucket]).to eq(ENV['S3_PUBLIC_BUCKET'])
-      expect(params[:key]).to match(ENV['S3_FEED_FILE_NAME'])
+      expect(params[:bucket]).to eq(ENV.fetch('S3_PUBLIC_BUCKET', nil))
+      expect(params[:key]).to match(ENV.fetch('S3_FEED_FILE_NAME', nil))
 
       rss = Nokogiri::XML(params[:body])
 
@@ -259,7 +259,7 @@ RSpec.describe Twib do
   end
 
   def episode_title_pattern(number)
-    folder_name = ENV['S3_EPISODES_FOLDER']
+    folder_name = ENV.fetch('S3_EPISODES_FOLDER', nil)
     episode_number = number.to_s.rjust(5, '0')
     date_pattern = '([0-9]{4})-([0-9]{2})-([0-9]{2})'
     %r{^#{folder_name}/#{episode_number}_#{date_pattern}\.mp3$}

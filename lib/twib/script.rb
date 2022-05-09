@@ -82,8 +82,8 @@ module Twib
       text
     end
 
-    def to_ssml(&block)
-      SsmlBuilder.build_ssml(&block).to_xml
+    def to_ssml(&)
+      SsmlBuilder.build_ssml(&).to_xml
     end
 
     def intro_text

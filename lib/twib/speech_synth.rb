@@ -18,7 +18,7 @@ module Twib
 
     def synthesize(ssml, response_target)
       POLLY_CLIENT.synthesize_speech(
-        response_target: response_target,
+        response_target:,
         output_format: 'mp3',
         voice_id: stable_random_voice,
         engine: 'neural',
