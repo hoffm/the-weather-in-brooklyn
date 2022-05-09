@@ -25,23 +25,23 @@ module Twib
     def upload_feed!(new_feed_xml)
       S3_CLIENT.put_object(
         content_type: 'application/xml',
-        bucket: ENV['S3_PUBLIC_BUCKET'],
-        key: ENV['S3_FEED_FILE_NAME'],
+        bucket: ENV.fetch('S3_PUBLIC_BUCKET', nil),
+        key: ENV.fetch('S3_FEED_FILE_NAME', nil),
         body: new_feed_xml
       )
     end
 
     def existing_feed_xml
       S3_CLIENT.get_object(
-        bucket: ENV['S3_PUBLIC_BUCKET'],
-        key: ENV['S3_FEED_FILE_NAME']
+        bucket: ENV.fetch('S3_PUBLIC_BUCKET', nil),
+        key: ENV.fetch('S3_FEED_FILE_NAME', nil)
       ).body.read
     rescue Aws::S3::Errors::NoSuchKey
       ''
     end
 
     def feed_url
-      "https://#{ENV['S3_PUBLIC_BUCKET']}.s3.amazonaws.com/#{ENV['S3_FEED_FILE_NAME']}"
+      "https://#{ENV.fetch('S3_PUBLIC_BUCKET', nil)}.s3.amazonaws.com/#{ENV.fetch('S3_FEED_FILE_NAME', nil)}"
     end
 
     def next_episode_number
@@ -56,8 +56,8 @@ module Twib
 
     def last_key
       last_episode = S3_CLIENT.list_objects_v2(
-        bucket: ENV['S3_PUBLIC_BUCKET'],
-        prefix: "#{ENV['S3_EPISODES_FOLDER']}/"
+        bucket: ENV.fetch('S3_PUBLIC_BUCKET', nil),
+        prefix: "#{ENV.fetch('S3_EPISODES_FOLDER', nil)}/"
       ).contents.last
 
       last_episode ? last_episode.key : nil

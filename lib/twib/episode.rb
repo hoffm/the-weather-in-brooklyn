@@ -7,7 +7,7 @@ module Twib
     class << self
       def build(audio_path)
         new(
-          audio_path: audio_path,
+          audio_path:,
           time: Time.current,
           number: Podcast.next_episode_number
         )
@@ -22,14 +22,14 @@ module Twib
 
     def data
       {
-        number: number,
-        title: title,
+        number:,
+        title:,
         enclosure: {
           url: audio_url,
           length: audio_size,
           type: 'audio/mpeg'
         },
-        pub_date: pub_date,
+        pub_date:,
         duration: audio_duration,
         subtitle: short_summary,
         description: summary,
@@ -44,7 +44,7 @@ module Twib
       File.open(audio_path, 'rb') do |file|
         S3_CLIENT.put_object(
           content_type: 'audio/mpeg',
-          bucket: ENV['S3_PUBLIC_BUCKET'],
+          bucket: ENV.fetch('S3_PUBLIC_BUCKET', nil),
           key: s3_key,
           body: file
         )
@@ -56,7 +56,7 @@ module Twib
     end
 
     def audio_url
-      "https://#{ENV['S3_PUBLIC_BUCKET']}.s3.amazonaws.com/#{s3_key}"
+      "https://#{ENV.fetch('S3_PUBLIC_BUCKET', nil)}.s3.amazonaws.com/#{s3_key}"
     end
 
     def audio_duration
@@ -64,7 +64,7 @@ module Twib
     end
 
     def s3_key
-      "#{ENV['S3_EPISODES_FOLDER']}/#{episode_code}.mp3"
+      "#{ENV.fetch('S3_EPISODES_FOLDER', nil)}/#{episode_code}.mp3"
     end
 
     def episode_code
