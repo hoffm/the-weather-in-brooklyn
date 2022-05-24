@@ -7,7 +7,7 @@ gem 'activesupport', '~> 7.0.2.4'
 gem 'aws-sdk-polly', '~> 1.55.0'
 gem 'aws-sdk-s3', '~> 1.114.0'
 gem 'dotenv', '~> 2.7.6'
-gem 'nokogiri', '~> 1.13.5'
+gem 'nokogiri', '~> 1.13.6'
 gem 'ruby-openai', '~> 1.4.0'
 
 group :test, :development do
