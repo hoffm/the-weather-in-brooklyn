@@ -60,7 +60,7 @@ module Twib
         prefix: "#{ENV.fetch('S3_EPISODES_FOLDER', nil)}/"
       ).contents.last
 
-      last_episode ? last_episode.key : nil
+      last_episode&.key
     end
   end
 end
